@@ -20,8 +20,8 @@ project_path=/TBI/Share/HumanTeam/BioPipeline/Isaac_Pipeline_v1/example/PhiX_tes
 $isaac_path/bin/isaac-align \
     -r $project_path/PhiX_ref/sorted-reference.xml \
     -b $project_path/input/Fastq/ \
-    -o $project_path/output/02_isaac_run \
-    -t $project_path/output/02_isaac_run/tmp \
+    -o $project_path/output/ \
+    -t $project_path/output/tmp \
     -f fastq \
     --use-bases-mask y150,y150 \
     -j 4 \
