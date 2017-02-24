@@ -20,7 +20,7 @@
               <Count>2500</Count>
             </AllFragments>
             <AlignedFragments>
-              <AdapterBases>367</AdapterBases>
+              <AdapterBases>476</AdapterBases>
               <Count>2473</Count>
             </AlignedFragments>
             <UniquelyAlignedFragments>
@@ -46,7 +46,7 @@
               <Count>2500</Count>
             </AllFragments>
             <AlignedFragments>
-              <AdapterBases>367</AdapterBases>
+              <AdapterBases>476</AdapterBases>
               <Count>2473</Count>
             </AlignedFragments>
             <UniquelyAlignedFragments>
@@ -101,18 +101,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -157,18 +157,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -187,14 +187,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -211,14 +211,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -260,18 +260,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -316,18 +316,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -346,14 +346,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -370,14 +370,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -417,18 +417,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -473,18 +473,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -503,14 +503,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -527,14 +527,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -572,18 +572,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -628,18 +628,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -658,14 +658,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -682,14 +682,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -733,18 +733,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -789,18 +789,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -819,14 +819,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -843,14 +843,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -892,18 +892,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -948,18 +948,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -978,14 +978,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -1002,14 +1002,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -1049,18 +1049,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -1105,18 +1105,18 @@
                     <YieldQ30>350786</YieldQ30>
                   </AllFragments>
                   <AlignedFragments>
-                    <AdapterBases>367</AdapterBases>
-                    <AlignmentScoreSum>2087461</AlignmentScoreSum>
-                    <Mismatches>1160</Mismatches>
+                    <AdapterBases>476</AdapterBases>
+                    <AlignmentScoreSum>2087746</AlignmentScoreSum>
+                    <Mismatches>1156</Mismatches>
                     <Count>2473</Count>
-                    <BasesOutsideIndels>364496</BasesOutsideIndels>
+                    <BasesOutsideIndels>364493</BasesOutsideIndels>
                     <QualityScoreSum>12913428</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
-                    <Mismatches>1157</Mismatches>
+                    <Mismatches>1153</Mismatches>
                     <Count>2468</Count>
-                    <Perfect>1833</Perfect>
-                    <BasesOutsideIndels>364412</BasesOutsideIndels>
+                    <Perfect>1834</Perfect>
+                    <BasesOutsideIndels>364409</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>
@@ -1135,14 +1135,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Pf>
@@ -1159,14 +1159,14 @@
                     <AlignmentScoreSum>2060643</AlignmentScoreSum>
                     <Mismatches>1464</Mismatches>
                     <Count>2449</Count>
-                    <BasesOutsideIndels>358648</BasesOutsideIndels>
+                    <BasesOutsideIndels>358401</BasesOutsideIndels>
                     <QualityScoreSum>12570904</QualityScoreSum>
                   </AlignedFragments>
                   <UniquelyAlignedFragments>
                     <Mismatches>1464</Mismatches>
                     <Count>2446</Count>
-                    <Perfect>1837</Perfect>
-                    <BasesOutsideIndels>358360</BasesOutsideIndels>
+                    <Perfect>1838</Perfect>
+                    <BasesOutsideIndels>358113</BasesOutsideIndels>
                   </UniquelyAlignedFragments>
                 </Read>
               </Raw>

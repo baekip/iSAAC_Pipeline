@@ -33,30 +33,21 @@ if ( $host eq 'eagle'){
 
 make_dir ($sh_path);
 make_dir ($output_path);
-my $sh_file_1 = sprintf ('%s/%s', $sh_path, "fastqc.$sample.1.sh");
-my $sh_file_2 = sprintf ('%s/%s', $sh_path, "fastqc.$sample.2.sh");
+my $sh_file = sprintf ('%s/%s', $sh_path, "snpeff.$sample.sh");
 
-open my $fh_sh_1, '>', $sh_file_1 or die;
+open my $fh_sh, '>', $sh_file or die;
 print $fh_sh_1 "#!/bin/bash \n";
-print $fh_sh_1 "#\$ -N fastqc.$sample.1 \n";
+print $fh_sh_1 "#\$ -N snpeff.$sample \n";
 print $fh_sh_1 "#\$ -wd $sh_path \n";
 print $fh_sh_1 "#\$ -pe smp $threads \n";
 print $fh_sh_1 "#\$ -q $queue \n";
 print $fh_sh_1 "date\n";
 
-open my $fh_sh_2, '>', $sh_file_2 or die;
-print $fh_sh_2 "#!/bin/bash\n";
-print $fh_sh_2 "#\$ -N fastqc.$sample.2 \n";
-print $fh_sh_2 "#\$ -wd $sh_path \n";
-print $fh_sh_2 "#\$ -pe smp $threads \n";
-print $fh_sh_2 "#\$ -q $queue \n";
-print $fh_sh_2 "date\n";
-
 my @fastq_R1_list = glob ("$input_path/*_R1.{fastq,fq}.gz");
 my @fastq_R2_list = glob ("$input_path/*_R2.{fastq,fq}.gz");
 
 my $fastq_1 = sprintf ('%s/%s', $output_path, "$sample\_R1.fastq.gz");
-my $fastq_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.fastq.gz");
+my $fastq_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.fastq_gz");
 
 my $md5_1 = sprintf ('%s/%s', $output_path, "$sample\_R1.md5.txt");
 my $md5_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.md5.txt");
