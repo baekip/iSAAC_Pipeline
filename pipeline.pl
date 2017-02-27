@@ -40,6 +40,7 @@ use File::Basename;
 use Cwd qw(abs_path);
 use lib dirname(abs_path $0) . '/library';
 use Utils qw (read_config checkFile make_dir checkDir trim);
+use Queue qw (CheckQsub pipe_arrange program_run);
 
 my ($config, $pipeline, $help);
 GetOptions (
@@ -100,6 +101,11 @@ sub read_pipeline_config{
 my %pipe_hash;
 pipe_arrange ($pipeline, \%pipe_hash);
 
+my $startdatestring = localtime();
+print "-------------------------------------------------------\n";
+print "START Pipeline: $startdatestring\n";
+print "-------------------------------------------------------\n";
+
 foreach my $row (@pipe_list){
     my $input_path;
     my ($order, $input_order, $program, $option, $type, $threads) = split /\s+/, $row;
@@ -126,9 +132,6 @@ foreach my $row (@pipe_list){
     my @flag_list;
     my $datestring=localtime();
     
-    print "-------------------------------------------------------\n";
-    print "START Pipeline: $datestring\n";
-    print "-------------------------------------------------------\n";
     print "#process: $order-$program\n"; 
     
     if (-e $flag_in){
@@ -180,60 +183,5 @@ foreach my $row (@pipe_list){
     CheckQsub(@job_list);
     print $fh_flag  join ("\n", sort(@run_list));
     close $fh_flag;
-}
-
-sub CheckQsub{
-    my @job_list = @_;
-    my $stop = 1;
-    
-    while($stop){
-    my $command =  "qstat";
-    my $status=qx[$command];
-    my @jobsStatus=split(/\n/,$status);
-    
-    my $job_str = join '|', map quotemeta @job_list;
-    my @targetJobStatus = grep ( /$job_str/, @jobsStatus); #Here we get only the status of the of interest 
-
-    if(scalar(@targetJobStatus )== 0) #if no job is running
-    {$stop=0;
-        }
-        sleep(5);
-    }
-}
-sub pipe_arrange { 
-    my ($pipe, $hash_ref) = @_;
-    open my $fh, '<:encoding(UTF-8)', $pipe or die;
-    while (my $row = <$fh>) {
-        chomp $row; 
-        if ($row =~ /^#|^\s+/){next;}
-        if (length ($row) == 0){next;}
-        my ($order, $input_order, $program, $option, $type, $threads) = split /\s+/, $row;
-        if ($option =~ /,/){
-            my @option_list = split /\,/, $option;
-            $option = $option_list[0];
-        }else {}
-
-        my $run_name = sprintf ("%s_%s_%s", $order, $program, $option);
-        $hash_ref->{$order}=$run_name;
-    }
-}
-
-sub program_run {
-    my $datestring=localtime();
-    print "-------------------------------------------------------\n";
-    print "Start: $datestring\n";
-    print "-------------------------------------------------------\n";
-    
-    my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $config) = @_;
-    $input_path = sprintf ("%s/%s", $input_path, $sample);
-    $sh_path = sprintf ("%s/%s/", $sh_path, $sample);
-    $output_path = sprintf ("%s/%s/", $output_path, $sample);
-    checkFile($script);
-    make_dir($output_path);
-    
-    my $cmd = "perl $script -p $program -i $input_path -S $sample -l $sh_path -o $output_path -t $threads -c $config";
-    print $cmd."\n";
-    return $cmd;
-#    system($cmd);
 }
 

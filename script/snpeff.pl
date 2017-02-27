@@ -3,13 +3,15 @@
 use strict;
 use warnings;
 use Getopt::Long;
-use Sys::Hostname;
 use Cwd qw(abs_path);
+use Sys::Hostname; 
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
 use Utils qw(make_dir checkFile read_config);
 
+
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file);
+
 GetOptions (
     'script|S=s' => \$script,
     'program|p=s' => \$program,
@@ -22,7 +24,6 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
-
 my $host=hostname;
 my $queue;
 if ( $host eq 'eagle'){
@@ -31,105 +32,129 @@ if ( $host eq 'eagle'){
     $queue = 'all.q';
 }
 
+
+##################################################################################
+# Requirement Value
+##################################################################################
 make_dir ($sh_path);
 make_dir ($output_path);
 my $sh_file = sprintf ('%s/%s', $sh_path, "snpeff.$sample.sh");
 
+my %info;
+read_config ($config_file, \%info);
+my $script_path = dirname(abs_path $0);
+my $reference = $info{reference};
+my $java = $info{java_1_7};
+my $tmp_dir = sprintf ("%s/tmp/", $input_path);
+my $snpeff = $info{snpeff};
+my $snpsift = $info{snpsift};
+my $snpeff_config = $info{snpeff_config};
+my $snpeff_db = $info{snpeff_db};
+my $cosmic_db = $info{cosmic_db};
+my $exac_db = $info{exac_db};
+my $vcf_per_line = $info{vcf_per_line};
+##################################################################################
+# make a run script
+##################################################################################
 open my $fh_sh, '>', $sh_file or die;
-print $fh_sh_1 "#!/bin/bash \n";
-print $fh_sh_1 "#\$ -N snpeff.$sample \n";
-print $fh_sh_1 "#\$ -wd $sh_path \n";
-print $fh_sh_1 "#\$ -pe smp $threads \n";
-print $fh_sh_1 "#\$ -q $queue \n";
-print $fh_sh_1 "date\n";
+print $fh_sh "#!/bin/bash\n";
+print $fh_sh "#\$ -N snpeff.$sample\n";
+print $fh_sh "#\$ -wd $sh_path \n";
+print $fh_sh "#\$ -pe smp $threads\n";
+print $fh_sh "#\$ -q $queue\n";
+print $fh_sh "date\n";
 
-my @fastq_R1_list = glob ("$input_path/*_R1.{fastq,fq}.gz");
-my @fastq_R2_list = glob ("$input_path/*_R2.{fastq,fq}.gz");
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpeff);
+printf $fh_sh ("\t-geneId \\\n");
+printf $fh_sh ("\t-c %s \\\n", $snpeff_config);
+printf $fh_sh ("\t-v %s \\\n", $snpeff_db);
+printf $fh_sh ("\t-s %s/%s.snpeff.html\\\n", $output_path, $sample);
+printf $fh_sh ("\t-o vcf\\\n"); 
+printf $fh_sh ("\t %s/%s.sorted.genome.PASS.vcf \\\n\n", $input_path, $sample);
 
-my $fastq_1 = sprintf ('%s/%s', $output_path, "$sample\_R1.fastq.gz");
-my $fastq_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.fastq_gz");
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\tgwasCat -v - \| \\\n\n");
 
-my $md5_1 = sprintf ('%s/%s', $output_path, "$sample\_R1.md5.txt");
-my $md5_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.md5.txt");
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\t-varType -v - \| \\\n\n");
 
-if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
-    die "ERROR: Not exist!! check your rawdata file <$input_path>";
-}elsif (scalar (@fastq_R1_list) != scalar (@fastq_R2_list) ){
-    die "ERROR: Not inconsistent!! check your rawdata file R1, R2 <$input_path>";
-}else {
-    my $fastq_list_1 = join ' ', @fastq_R1_list;
-    printf $fh_sh_1 ("cat %s > %s\n", $fastq_list_1, $fastq_1);
-    printf $fh_sh_1 ("%s -t %d -o %s %s\n", $program, $threads, $output_path, $fastq_1);
-    printf $fh_sh_1 ("md5sum %s > %s\n", $fastq_1, $md5_1);
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\tannotate -noID -info COSMID -v %s - \| \\\n", $cosmic_db);
 
-    my $fastq_list_2 = join ' ', @fastq_R2_list;
-    printf $fh_sh_2 ("cat %s > %s\n", $fastq_list_2, $fastq_2); 
-    printf $fh_sh_2 ("%s -t %d -o %s %s\n", $program, $threads, $output_path, $fastq_2);
-    printf $fh_sh_2 ("md5sum %s > %s\n", $fastq_2, $md5_2);
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\tannotate -dbsnp -v - \| \\\n");
 
-}
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_Sh ("\tannotate -clinvar -v - \| \\\n");
 
-print $fh_sh_1 "date\n";
-print $fh_sh_2 "date\n";
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\tdbNSFP -v - \| \\\n");
 
-close $fh_sh_1;
-close $fh_sh_2;
+printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\tannotate -v %s \| sed \"s/dbNSFP_GERP++/dbNSFP_GERP/g\" \| grep -v \"hg38_chr\" > %s \n\n", $exac_db, "$output_path/$sample.snpeff.vcf");
 
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file_1));
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file_2));
+printf $fh_sh ("cat %s \| %s | %s -Xmx%dg \\\n", "$output_path/$sample.snpeff.vcf", $vcf_per_line, $java, $threads);
+printf $fh_sh ("\t-Djava.io.tmpdir=%s \\\n", $tmp_dir);
+printf $fh_sh ("\t-jar %s \\\n", $snpsift);
+printf $fh_sh ("\textractFields -e \".\" - CHROM POS ID REF ALT FILTER VARTYPE \\\n");
+printf $fh_sh ("\t\"GEN[\'%s\'].GT\" \"GEN[\'%s\'].AD\" \"GEN['%s'].DP\" \\\n", $sample, $sample, $sample);
+printf $fh_sh ("\t\"ANN[*].EFFECT\" \\\n");
+printf $fh_sh ("\t\"ANN[*].IMPACT\" \\\n");
+printf $fh_sh ("\t\"ANN[*].GENE\" \\\n");
+printf $fh_sh ("\t\"ANN[*].FEATURE\" \\\n");
+printf $fh_sh ("\t\"ANN[*].FEATUREID\" \\\n");
+printf $fh_sh ("\t\"ANN[*].BIOTYPE\" \\\n");
+printf $fh_sh ("\t\"ANN[*].RANK \\\n");
+printf $fh_sh ("\t\"ANN[*].HGVS_C \\\n");
+printf $fh_sh ("\t\"ANN[*].HGVS_P \\\n");
+printf $fh_sh ("\t\"ANN[*].CDNA_POS \\\n");
+printf $fh_sh ("\t\"ANN[*].CDNA_LEN \\\n");
+printf $fh_sh ("\t\"ANN[*].CDS_POS \\\n");
+printf $fh_sh ("\t\"ANN[*].CDS_LEN \\\n");
+printf $fh_sh ("\t\"ANN[*].AA_POS \\\n");
+printf $fh_sh ("\t\"ANN[*].AA_LEN \\\n");
+printf $fh_sh ("\t\"ANN[*].DISTANCE \\\n");
+printf $fh_sh ("\tGWASCAT_TRAIT \\\n");
+printf $fh_sh ("\tCOSMID \\\n");
+printf $fh_sh ("\t\"CLNDSDBID \\\n");
+printf $fh_sh ("\t\"CLNORIGIN \\\n");
+printf $fh_sh ("\t\"CLNSIG \\\n");
+printf $fh_sh ("\t\"CLNDBN \\\n");
+printf $fh_sh ("\t\"dbNSFP_Uniprot_acc \\\n");
+printf $fh_sh ("\t\"dbNSFP_Interpro_domain \\\n");
+printf $fh_sh ("\t\"dbNSFP_SIFT_pred \\\n");
+printf $fh_sh ("\t\"dbNSFP_Polyphen2_HDIV_pred \\\n");
+printf $fh_sh ("\t\"dbNSFP_Polyphen2_HVAR_pred \\\n");
+printf $fh_sh ("\t\"dbNSFP_LRT_pred \\\n");
+printf $fh_sh ("\t\"dbNSFP_MutationTaster_pred \\\n");
+printf $fh_sh ("\t\"dbNSFP_GERP___NR \\\n");
+printf $fh_sh ("\t\"dbNSFP_GERP___RS \\\n");
 
-#sub run_program {
-#    my ($input_path, $sample, $log_path) = @_;
-##    my ($program, $input_path, $sample, $log_path, $output_path, $threads) = @_;
-##   printf ("The size are %d, %d, and $d\n", $size1, $size2, $size3) 
-#    my @fastq_R1_list = glob("$input_path/$sample/*_R1.{fastq,fq}.gz");
-#    my @fastq_R2_list = glob("$input_path/$sample/*_R2.{fastq,fq}.gz");
-#    
-#    #*_R1.fastq.gz
-#    my $sh_file_1 = "$log_path/$sample/fastq.$sample.1.sh";
-#    open my $fh_1,'>', $sh_file_1 or die;
-#
-#    if (!defined @fastq_R1_list){
-#       die "ERROR: Check your lawdata file <$input_path/$sample>!!";
-#   }elsif (@fastq_R1_list = 1 ){
-#        printf $fh_1 "#!/bin/bash\n";
-#        printf $fh_1 "date\n";
-#        printf $fh_1 ("ln -s %s, %s", $fastq_R1_list[1], "$input_path/$sample/$sample\_R1.fastq.gz");
-#        printf $fh_1 ("%s, -t %d, -o %s, %s\n", $program, $threads, $result_path, $rawdata_1);
-#        printf $fh_1 "date\n";
-#        close $fh_1;
-#   }else {
-#       foreach my $id (@fastq_R1_list){
-#           printf $fh_1 "#!/bin/bash\n";
-#           printf $fh_1 "date\n";
-#           printf $fh_1 ("%s, -t %d, -o %s, %s\n", $program, $threads, $result_path, $rawdata_1);
-#           printf $fh_1 "date\n";
-#           close $fh_1;
-#       }
-#   }
-#
-#   #*_R2.fastq.gz
-#   my $sh_file_2 = "$log_path/$sample/fastq.$sample.2.sh";
-#   open my $fh_2, '>', $sh_file_2 or die;
-#   if (!defined @fastq_R1_list){
-#       die "ERROR: Check your lawdata file <$input_path/$sample>!!";
-#   }elsif (@fastq_R2_list){
-#       printf $fh_2 "#!/bin/bash\n";
-#       printf $fh_2 "date\n";
-#       printf $fh_2 ("ln -s %s, %s", $fastq_R2_list[1], "$input_path/$sample/$sample\_R2.fastq.gz");
-#       printf $fh_2 ("%s, -t %d, -o %s, %s\n", $program, $threads, $result_path, $rawdata_2);
-#       printf $fh_2 "date\n";
-#       close $fh_2;
-#   }else {
-#        my $list = join " ", @fastq_R2_list)    
-#        printf $fh_2 "#!/bin/bash\n";
-#        printf $fh_2 "date\n";
-#        printf $fh_2 ("cat %s > %s", $list, $rawdata_1);
-#        printf $fh_2 ("%s, -t %d, -o %s, %s\n", $program, $threads, $result_path, $rawdata_2);
-#        printf $fh_2 "date\n";
-#        close $fh_2;
-#       }
-#   }
-#}
-#
+printf $fh_sh ("\t\"dbNSFP_phastCons100way_vertebrate \\\n");
+printf $fh_sh ("\t\"dbNSFP_1000Gp1_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_1000Gp1_AFR_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_1000Gp1_EUR_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_1000Gp1_AMR_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_1000Gp1_ASN_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_ESP6500_AA_AF \\\n");
+printf $fh_sh ("\t\"dbNSFP_ESP6500_EA_AF \\\n");
+printf $fh_sh ("\t\"EXAC_AC \\\n");
+printf $fh_sh ("\t\"EXAC_AN \\\n");
 
+printf $fh_sh ("\t> %s \n", "$output_path/$sample.snpeff.tsv.tmp");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/merge_isofrom_snv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.isoform.tsv");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.isoform.tsv", "$output_path/$sample.snpeff.isoform.xlsx");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.xlsx");
+
+
+print $fh_sh "date\n";
+close $fh_sh;
+system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
