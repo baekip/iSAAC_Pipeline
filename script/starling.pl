@@ -52,6 +52,7 @@ print $fh_sh "#\$ -pe smp $threads\n";
 print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 printf $fh_sh ("%s --bam=%s --ref=%s --config=%s --output-dir=%s\n", $program, "$input_path/$sample.bam", $reference, $ivc_config, $output_path);
+printf $fh_sh ("make -C %s\n", $output_path);
 print $fh_sh "date\n";
 close $fh_sh;
 

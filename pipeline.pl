@@ -25,6 +25,7 @@
     - starling_pre.pl, 2017-02-23
     - starling.pl, 2017-02-23
     - gvcftools.pl, 2017-02-23
+    - qualimap.pl, 2017-02-24
 
 =head1 Example
 
@@ -54,8 +55,6 @@ die `pod2text $0` if (!defined $config || !defined $pipeline || $help);
 
 my %info;
 read_config ($config, \%info);
-#my %pipe;
-#read_pipeline ($pipeline, \%pipe);
 
 #############################################################
 #Requirement config source 
@@ -83,7 +82,6 @@ make_dir($sh_path);
 #############################################################
 
 read_pipeline_config ($config, $pipeline);
-
 use Data::Dumper;
 
 my @pipe_list;
@@ -124,43 +122,82 @@ foreach my $row (@pipe_list){
     my $script = sprintf ("%s/%s.pl", $script_path, $program);
     my $output_path = sprintf ("%s/%s/", $result_path, $pipe_hash{$order});
     my $sh_program_path = sprintf ("%s/%s/", $sh_path, $pipe_hash{$order});
+    my $flag_in = sprintf ("%s/%s/%s_flag.txt", $flag_orig_path, $pipe_hash{$order}, $pipe_hash{$order});
+    my @flag_list;
+    my $datestring=localtime();
     
+    print "-------------------------------------------------------\n";
+    print "START Pipeline: $datestring\n";
+    print "-------------------------------------------------------\n";
+    print "#process: $order-$program\n"; 
+    
+    if (-e $flag_in){
+        open my $fh_in, '<:encoding(UTF-8)', $flag_in or die;
+        while (my $row = <$fh_in>){
+            chomp $row;
+            push @flag_list, $row;
+        }close $fh_in;
+    }
+    my %flag_hash = map {$_ => 1} @flag_list;
+    my @run_sample = grep (!defined $flag_hash{$_}, @sample_list);
+    my @exist_sample = grep ($flag_hash{$_}, @sample_list);
+    if (@run_sample == 0) {
+        print "-------------------------------------------------------\n";
+        print "Exist Flag $order: $datestring\n";
+        print "-------------------------------------------------------\n";
+        next;
+    }
 
-    foreach my $sample (@sample_list){
+    my @job_list;
+    my @run_list; 
+    
+    my $flag_path = sprintf ("%s/%s/", $flag_orig_path, $pipe_hash{$order});
+    make_dir($flag_path);
+    my $flag_file = sprintf ("%s/%s_flag.txt", $flag_path, $pipe_hash{$order});
+    open my $fh_flag, '>', $flag_file or die;
+    
+    foreach my $sample (@run_sample){
         if ($type eq 'private'){
             my $program_bin = 'perl_script';
-            program_run($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+            my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+            my $stdout = qx($cmd);
+            my @qlist = split /\s+/, $stdout;
+            my $job_id = $qlist[2];
+            push @job_list, $job_id;
+            push @run_list, @exist_sample, $sample;
         }elsif ($type eq 'public'){
             my $program_bin = $info{$program};
-            program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+            my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+            my $stdout = qx($cmd);
+            my @qlist = split /\s+/, $stdout;
+            my $job_id = $qlist[2];
+            push @job_list, $job_id;
+            push @run_list, @exist_sample, $sample;
         }else {
             die "ERROR!! Check your pipeline configre <Order Number: $order> type option";
         }
     }
-
-    CheckQsub($program);
-#    my $flag_path = sprintf ("%s/%s/", $flag_orig_path, $pipe_hash{$order});
-#    make_dir($flag_path);
-#    my $flag_file = sprintf ("%s/%s_flag.txt", $flag_path, $pipe_hash{$order});
-
+    CheckQsub(@job_list);
+    print $fh_flag  join ("\n", sort(@run_list));
+    close $fh_flag;
 }
 
 sub CheckQsub{
-    my $job_name = shift;
+    my @job_list = @_;
     my $stop = 1;
     
     while($stop){
-    
     my $command =  "qstat";
     my $status=qx[$command];
     my @jobsStatus=split(/\n/,$status);
     
-    my @targetJobStatus  = grep(/$job_name/,@jobsStatus);  #Here we get only the status of the of interest
+    my $job_str = join '|', map quotemeta @job_list;
+    my @targetJobStatus = grep ( /$job_str/, @jobsStatus); #Here we get only the status of the of interest 
 
     if(scalar(@targetJobStatus )== 0) #if no job is running
     {$stop=0;
         }
-        sleep(3);
+        sleep(5);
     }
 }
 sub pipe_arrange { 
@@ -196,6 +233,7 @@ sub program_run {
     
     my $cmd = "perl $script -p $program -i $input_path -S $sample -l $sh_path -o $output_path -t $threads -c $config";
     print $cmd."\n";
-    system($cmd);
+    return $cmd;
+#    system($cmd);
 }
 

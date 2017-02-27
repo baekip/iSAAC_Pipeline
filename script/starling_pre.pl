@@ -47,9 +47,9 @@ print $fh_sh "date\n";
 
 #/TBI/Share/HumanTeam/BioProject/Isaac_PhiX_Test/result/03_isaac_orig/Sample01/Projects/Sample01/Sample01
 
-printf $fh_sh ("ln -s %s %s\n", "$input_path/default/default/sorted.bam", "$output_path/$sample.bam");
-printf $fh_sh ("ln -s %s %s\n", "$input_path/default/default/sorted.bam.bai", "$output_path/$sample.bam.bai");
-printf $fh_sh ("ln -s %s %s\n", "$input_path/default/default/sorted.bam.md5", "$output_path/$sample.bam.md5");
+printf $fh_sh ("ln -s %s %s\n", "$input_path/Projects/default/default/sorted.bam", "$output_path/$sample.bam");
+printf $fh_sh ("ln -s %s %s\n", "$input_path/Projects/default/default/sorted.bam.bai", "$output_path/$sample.bam.bai");
+printf $fh_sh ("ln -s %s %s\n", "$input_path/Projects/default/default/sorted.bam.md5", "$output_path/$sample.bam.md5");
 
 print $fh_sh "date\n";
 close $fh_sh;

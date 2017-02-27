@@ -50,16 +50,15 @@ if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
 }elsif (scalar (@fastq_R1_list) != scalar (@fastq_R2_list) ){
     die "ERROR: Not inconsistent!! check your rawdata file R1, R2 <$input_path>";
 }else{
-    for (my $i=1; $i<@fastq_R1_list; $i++) {
-        my $j=$i-1;
-        my $isaac_pattern_1 = "$output_path/lane$i\_read1.fastq.gz";
-#        print $fastq_R1_list[1]."\n";
-        printf $fh_sh ("ln -s %s %s \n", $fastq_R1_list[$j], $isaac_pattern_1);
+    for (my $i=0; $i<@fastq_R1_list; $i++) {
+        my $j=$i+1;
+        my $isaac_pattern_1 = "$output_path/lane$j\_read1.fastq.gz";
+        printf $fh_sh ("ln -s %s %s \n", $fastq_R1_list[$i], $isaac_pattern_1);
     }
-    for (my $i=1; $i<@fastq_R2_list; $i++) {
-        my $j=$i-1;
-        my $isaac_pattern_2 = "$output_path/lane$i\_read2.fastq.gz";
-        printf $fh_sh ("ln -s %s %s \n", $fastq_R2_list[$j], $isaac_pattern_2);
+    for (my $i=0; $i<@fastq_R2_list; $i++) {
+        my $j=$i+1;
+        my $isaac_pattern_2 = "$output_path/lane$j\_read2.fastq.gz";
+        printf $fh_sh ("ln -s %s %s \n", $fastq_R2_list[$i], $isaac_pattern_2);
     }
 }
 
