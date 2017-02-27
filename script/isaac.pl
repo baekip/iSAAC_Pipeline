@@ -39,6 +39,7 @@ my %info;
 my $sh_file = sprintf ('%s/%s', $sh_path, "isaac.$sample.sh");
 read_config ($config_file, \%info);
 my $sorted_reference = $info{sorted_reference};
+my $memory = $info{isaac_memory};
 
 open my $fh_sh, '>', $sh_file or die;
 print $fh_sh "#!/bin/bash\n";
@@ -48,7 +49,7 @@ print $fh_sh "#\$ -pe smp $threads\n";
 print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
-printf $fh_sh ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y150 -m %d \n", $program, $sorted_reference, $input_path, $output_path, "$output_path/Temp/", $threads);
+printf $fh_sh ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y150 -m %d -j %d\n", $program, $sorted_reference, $input_path, $output_path, "$output_path/Temp/", $memory, $threads);
 
 print $fh_sh "date\n";
 close $fh_sh;
