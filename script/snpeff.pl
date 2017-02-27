@@ -83,19 +83,19 @@ printf $fh_sh ("\t-varType -v - \| \\\n\n");
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
-printf $fh_sh ("\tannotate -noID -info COSMID -v %s - \| \\\n", $cosmic_db);
+printf $fh_sh ("\tannotate -noID -info COSMID -v %s - \| \\\n\n", $cosmic_db);
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
-printf $fh_sh ("\tannotate -dbsnp -v - \| \\\n");
+printf $fh_sh ("\tannotate -dbsnp -v - \| \\\n\n");
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
-printf $fh_Sh ("\tannotate -clinvar -v - \| \\\n");
+printf $fh_sh ("\tannotate -clinvar -v - \| \\\n\n");
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
-printf $fh_sh ("\tdbNSFP -v - \| \\\n");
+printf $fh_sh ("\tdbNSFP -v - \| \\\n\n");
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
