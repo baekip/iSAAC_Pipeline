@@ -7,8 +7,7 @@ use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile read_config cmd_system);
-
+use Utils qw(make_dir checkFile read_config cmd_system trim);
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file);
 GetOptions (
@@ -24,6 +23,7 @@ GetOptions (
 );
 
 
+
 my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
@@ -34,26 +34,20 @@ my $hostname=hostname;
 
 make_dir ($sh_path);
 make_dir ($output_path);
+my $sh_file = sprintf ('%s/%s', $sh_path, "qualimap_stat.$sample.sh");
 
-
-my %info;
-read_config ($config_file, \%info);
-
-my $reference = $info{reference};
-my $ivc_config = $info{ivc_config};
-
-my $sh_file = sprintf ('%s/%s', $sh_path, "starling.$sample.sh");
+my $dir_script = dirname (abs_path $0);
+my $run_script = "$dir_script/statistics.pl";
 
 open my $fh_sh, '>', $sh_file or die;
-print $fh_sh "#!/bin/bash\n";
-print $fh_sh "#\$ -N starling_pre.$sample\n";
+print $fh_sh "#!/bin/bash \n";
+print $fh_sh "#\$ -N qualimap_stat.$sample.1 \n";
 print $fh_sh "#\$ -wd $sh_path \n";
-print $fh_sh "#\$ -pe smp $threads\n";
-#print $fh_sh "#\$ -q $queue\n";
+print $fh_sh "#\$ -pe smp $threads \n";
+#print $fh_sh_1 "#\$ -q $queue \n";
 print $fh_sh "date\n";
-printf $fh_sh ("%s --bam=%s --ref=%s --config=%s --output-dir=%s\n", $program, "$input_path/$sample.bam", $reference, $ivc_config, $output_path);
-printf $fh_sh ("make -C %s\n", $output_path);
-print $fh_sh "date\n";
+print $fh_sh "perl $run_script -p $program -i $input_path -S $sample -l $sh_path -o $output_path -t $threads -c $config_file\n";
+print $fh_sh "date";
 close $fh_sh;
-
 cmd_system ($sh_path, $hostname, $sh_file);
+

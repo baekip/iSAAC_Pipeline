@@ -23,7 +23,7 @@ GetOptions (
 );
 
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';
@@ -40,7 +40,7 @@ print $fh_sh "#!/bin/bash \n";
 print $fh_sh "#\$ -N qualimap.$sample \n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads \n";
-print $fh_sh "#\$ -q $queue \n";
+#print $fh_sh "#\$ -q $queue \n";
 print $fh_sh "date\n";
 print $fh_sh "unset DISPLAY\n";
 
@@ -49,7 +49,7 @@ printf $fh_sh ("%s bamqc --java-mem-size=24G -bam %s -outdir %s -nt %d \n", $pro
 print $fh_sh "date\n";
 close $fh_sh;
 
-cmd_system ($sh_path, $host, $sh_file));
+cmd_system ($sh_path, $hostname, $sh_file);
 
 #sub run_program {
 #    my ($input_path, $sample, $log_path) = @_;

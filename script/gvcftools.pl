@@ -24,7 +24,7 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';

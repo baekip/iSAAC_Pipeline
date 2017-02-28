@@ -23,7 +23,7 @@ GetOptions (
 );
 
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';
@@ -41,7 +41,7 @@ print $fh_sh_1 "#!/bin/bash \n";
 print $fh_sh_1 "#\$ -N fastqc.$sample.1 \n";
 print $fh_sh_1 "#\$ -wd $sh_path \n";
 print $fh_sh_1 "#\$ -pe smp $threads \n";
-print $fh_sh_1 "#\$ -q $queue \n";
+#print $fh_sh_1 "#\$ -q $queue \n";
 print $fh_sh_1 "date\n";
 
 open my $fh_sh_2, '>', $sh_file_2 or die;

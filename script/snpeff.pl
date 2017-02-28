@@ -24,7 +24,7 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';
@@ -157,4 +157,4 @@ printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/write_xlsx_from_ts
 
 print $fh_sh "date\n";
 close $fh_sh;
-cmd_system ($sh_path, $host, $sh_file);
+cmd_system ($sh_path, $hostname, $sh_file);

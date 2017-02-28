@@ -24,7 +24,7 @@ GetOptions (
 );
 
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';
@@ -42,7 +42,7 @@ print $fh_sh "#!/bin/bash\n";
 print $fh_sh "#\$ -N starling_pre.$sample\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
-print $fh_sh "#\$ -q $queue\n";
+#print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
 #/TBI/Share/HumanTeam/BioProject/Isaac_PhiX_Test/result/03_isaac_orig/Sample01/Projects/Sample01/Sample01
@@ -54,4 +54,4 @@ printf $fh_sh ("ln -s %s %s\n", "$input_path/Projects/default/default/sorted.bam
 print $fh_sh "date\n";
 close $fh_sh;
 
-cmd_system ($sh_path, $host, $sh_file);
+cmd_system ($sh_path, $hostname, $sh_file);

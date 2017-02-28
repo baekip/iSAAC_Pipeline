@@ -23,7 +23,7 @@ GetOptions (
 );
 
 
-my $host=hostname;
+my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
 #    $queue = 'isaac.q';
@@ -65,7 +65,7 @@ if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
 print $fh_sh "date\n";
 close $fh_sh;
 
-cmd_system ($sh_path, $host, $sh_file));
+cmd_system ($sh_path, $hostname, $sh_file);
 
 #system ("bash $sh_file");
 

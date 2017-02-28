@@ -26,6 +26,8 @@
     - starling.pl, 2017-02-23
     - gvcftools.pl, 2017-02-23
     - qualimap.pl, 2017-02-24
+    - qualimap_stat.pl, 2017-02-28
+    - statistics.pl, 2017-02-28
 
 =head1 Example
 
@@ -116,11 +118,20 @@ foreach my $row (@pipe_list){
 
     if ($input_order =~ /,/){
         my @input_list = split /\,/, $input_order;
+        $input_order = join (",", @input_list);
     }else{ }
 
     if ($input_order eq '00'){ 
         $input_path = $rawdata_path; 
-    }else {
+    }elsif ($input_order =~ /,/){
+        my @input_list = split /\,/, $input_order;
+        my @input_path_list;
+        foreach my $input (@input_list){
+            push @input_path_list, sprintf ("%s/%s", $result_path, $pipe_hash{$input});
+        }
+        $input_path = join (",", @input_path_list);
+        print $input_path."\n";
+    }else{
         $input_path = sprintf ("%s/%s", $result_path, $pipe_hash{$input_order});
     }
    
