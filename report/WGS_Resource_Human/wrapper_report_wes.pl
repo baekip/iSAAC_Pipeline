@@ -1,3 +1,4 @@
+#!/usr/bin/perl
 use warnings;
 use strict;
 
@@ -25,7 +26,7 @@ read_general_config ($general_config_file, \%info);
 
 my $version = "V1.0";
 my $project_path = $info{project_path};
-my $out_path = "$project_path/report";
+my $out_path = $info{report};
 my $project_id = $info{project_id};
 my $dev_path = $info{dev_path};
 my $Rscript = "Rscript";
@@ -34,15 +35,13 @@ checkFile( $java );
 my $text2pdf = "$dev_path/etc/text2pdf.jar"; 
 checkFile ( $text2pdf );
 
-my $template_resource_path = "$dev_path/wes/WGS_Resource_Human/PDF_resource"; ###
+my $template_resource_path = "$dev_path/WGS_Resource_Human/PDF_resource"; ###
 if (!-d $template_resource_path){
 	die "ERROR ! not found template resource directory\n";
 }
 
 # make new_path
-if (!-d $out_path){
-	die "ERROR ! not found report directory in your project_directory <$project_path>\n";
-}
+make_dir ($out_path);
 
 # check before reults
 my $output_pdf = "$out_path/Analysis_report_".$project_id.".pdf"; #########
@@ -184,17 +183,26 @@ my $cmd_make_pdf = "$java -jar $text2pdf -sp 2 -hl -fl -ht Analysis Report $vers
 print $cmd_make_pdf."\n";
 system($cmd_make_pdf);
 
-## 
 if ($param_delete){
     system("rm -r $resource_path");
     system("rm -r $out_path/temp");
 }
 
+########################################################################
+#Sub routine
+########################################################################
 sub run_script{
 	my ( $script, $config_1, $config_2, $outfile ) =  @_;
 	my $command = "perl $script $config_1 $config_2 > \"$outfile\"";
 	print $command."\n";
 	system($command);
+}
+
+sub make_dir {
+    my $dir = shift;
+    if (!-d $dir){
+        system ("mkdir -p $dir");
+    }
 }
 
 sub run_script_1{

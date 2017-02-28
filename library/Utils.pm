@@ -4,7 +4,7 @@
 #############################################################
 package Utils;
 use Exporter qw(import);
-our @EXPORT_OK = qw(read_config trim checkFile checkDir make_dir cp_file);
+our @EXPORT_OK = qw(read_config trim checkFile checkDir make_dir cp_file cmd_system);
 #############################################################
 ##sub
 ##############################################################
@@ -21,6 +21,11 @@ sub read_config{
         $hash_ref->{$key}=$value;
     }
     close $fh;
+}
+
+sub cmd_system {
+    my ($sh_path, $hostname, $sh_file) = @;
+    system (sprintf ("qsub -V -e %s -o %s -l hostname=%s -S /bin/bash %s", $sh_path, $sh_path, $hostname, $sh_file));
 }
 
 sub trim {

@@ -7,7 +7,7 @@ use Sys::Hostname;
 use File::Basename qw(dirname);
 use Cwd qw(abs_path);
 use lib dirname(abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile);
+use Utils qw(make_dir checkFile cmd_system);
 
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $config);
@@ -24,12 +24,12 @@ GetOptions (
 
 
 my $host=hostname;
-my $queue;
-if ( $host eq 'eagle'){
-    $queue = 'isaac.q';
-}else{
-    $queue = 'all.q';
-}
+#my $queue;
+#if ( $host eq 'eagle'){
+#    $queue = 'isaac.q';
+#}else{
+#    $queue = 'all.q';
+#}
 
 my $sh_file = sprintf ("%s/%s", $sh_path, "isaac_pre.$sample.sh");
 make_dir($sh_path);
@@ -38,7 +38,7 @@ print $fh_sh "#!/bin/bash\n";
 print $fh_sh "#\$ -N isaac_pre.$sample\n";
 print $fh_sh "#\$ -wd $sh_path\n";
 print $fh_sh "#\$ -pe smp $threads\n";
-print $fh_sh "#\$ -q $queue\n";
+#print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
 my @fastq_R1_list = glob ("$input_path/*_R1.{fastq,fq}.gz");
@@ -65,7 +65,7 @@ if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
 print $fh_sh "date\n";
 close $fh_sh;
 
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+cmd_system ($sh_path, $host, $sh_file));
 
 #system ("bash $sh_file");
 

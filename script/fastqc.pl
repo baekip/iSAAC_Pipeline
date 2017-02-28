@@ -7,7 +7,7 @@ use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile read_config);
+use Utils qw(make_dir checkFile read_config cmd_system);
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file);
 GetOptions (
@@ -24,12 +24,12 @@ GetOptions (
 
 
 my $host=hostname;
-my $queue;
-if ( $host eq 'eagle'){
-    $queue = 'isaac.q';
-}else{
-    $queue = 'all.q';
-}
+#my $queue;
+#if ( $host eq 'eagle'){
+#    $queue = 'isaac.q';
+#}else{
+#    $queue = 'all.q';
+#}
 
 make_dir ($sh_path);
 make_dir ($output_path);
@@ -49,7 +49,7 @@ print $fh_sh_2 "#!/bin/bash\n";
 print $fh_sh_2 "#\$ -N fastqc.$sample.2 \n";
 print $fh_sh_2 "#\$ -wd $sh_path \n";
 print $fh_sh_2 "#\$ -pe smp $threads \n";
-print $fh_sh_2 "#\$ -q $queue \n";
+#print $fh_sh_2 "#\$ -q $queue \n";
 print $fh_sh_2 "date\n";
 
 my @fastq_R1_list = glob ("$input_path/*_R1.{fastq,fq}.gz");
@@ -84,8 +84,8 @@ print $fh_sh_2 "date\n";
 close $fh_sh_1;
 close $fh_sh_2;
 
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file_1));
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file_2));
+cmd_system ($sh_path, $hostname, $sh_file_1);
+cmd_system ($sh_path, $hostname, $sh_file_2);
 
 #sub run_program {
 #    my ($input_path, $sample, $log_path) = @_;

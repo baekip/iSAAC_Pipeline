@@ -7,7 +7,7 @@ use Cwd qw(abs_path);
 use Sys::Hostname; 
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile read_config);
+use Utils qw(make_dir checkFile read_config cmd_system);
 
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file)=@_;
@@ -25,12 +25,12 @@ GetOptions (
 );
 
 my $host=hostname;
-my $queue;
-if ( $host eq 'eagle'){
-    $queue = 'isaac.q';
-}else{
-    $queue = 'all.q';
-}
+#my $queue;
+#if ( $host eq 'eagle'){
+#    $queue = 'isaac.q';
+#}else{
+#    $queue = 'all.q';
+#}
 
 make_dir ($sh_path);
 make_dir ($output_path);
@@ -51,7 +51,7 @@ print $fh_sh "#!/bin/bash\n";
 print $fh_sh "#\$ -N starling_pre.$sample\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
-print $fh_sh "#\$ -q $queue\n";
+#print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
 printf $fh_sh ("ln -s %s %s \n", "$input_path/results/$sample.genome.vcf.gz", "$output_path/$sample.vcf.gz");
@@ -60,5 +60,5 @@ printf $fh_sh ("gzip -dc %s | %s | awk \'/^#/ || \$7 == \"PASS\" \'> %s\n " ,"$i
 
 print $fh_sh "date\n";
 close $fh_sh;
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+cmd_system ($sh_path, $hostname, $sh_file);
 #my $stdout =  system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));

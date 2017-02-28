@@ -15,7 +15,6 @@ read_general_config( $in_general_config, \%info );
 #read_pipeline_config();
 
 my @list_delivery_tbi_id = split /\,/, $info{delivery_tbi_id};
-
 my $project_path = $info{project_path};
 
 #my $rawdata_path = "$project_path/rawdata";

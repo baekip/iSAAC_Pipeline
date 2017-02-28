@@ -7,7 +7,7 @@ use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile read_config);
+use Utils qw(make_dir checkFile read_config cmd_system);
 
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file);
@@ -25,12 +25,12 @@ GetOptions (
 
 
 my $host=hostname;
-my $queue;
-if ( $host eq 'eagle'){
-    $queue = 'isaac.q';
-}else{
-    $queue = 'all.q';
-}
+#my $queue;
+#if ( $host eq 'eagle'){
+#    $queue = 'isaac.q';
+#}else{
+#    $queue = 'all.q';
+#}
 
 make_dir ($sh_path);
 make_dir ($output_path);
@@ -46,7 +46,7 @@ print $fh_sh "#!/bin/bash\n";
 print $fh_sh "#\$ -N isaac.$sample\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
-print $fh_sh "#\$ -q $queue\n";
+#print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
 printf $fh_sh ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y150 -m %d -j %d\n", $program, $sorted_reference, $input_path, $output_path, "$output_path/Temp/", $memory, $threads);
@@ -54,4 +54,5 @@ printf $fh_sh ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y15
 print $fh_sh "date\n";
 close $fh_sh;
 
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+cmd_system ($sh_path, $host, $sh_file);
+

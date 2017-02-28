@@ -7,7 +7,7 @@ use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname (abs_path $0) . '/../library';
-use Utils qw(make_dir checkFile read_config);
+use Utils qw(make_dir checkFile read_config cmd_system);
 
 my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $option, $config_file);
 GetOptions (
@@ -24,12 +24,12 @@ GetOptions (
 
 
 my $host=hostname;
-my $queue;
-if ( $host eq 'eagle'){
-    $queue = 'isaac.q';
-}else{
-    $queue = 'all.q';
-}
+#my $queue;
+#if ( $host eq 'eagle'){
+#    $queue = 'isaac.q';
+#}else{
+#    $queue = 'all.q';
+#}
 
 make_dir ($sh_path);
 make_dir ($output_path);
@@ -49,7 +49,7 @@ printf $fh_sh ("%s bamqc --java-mem-size=24G -bam %s -outdir %s -nt %d \n", $pro
 print $fh_sh "date\n";
 close $fh_sh;
 
-system (sprintf ("qsub -V -e %s -o %s -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+cmd_system ($sh_path, $host, $sh_file));
 
 #sub run_program {
 #    my ($input_path, $sample, $log_path) = @_;
