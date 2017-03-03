@@ -35,6 +35,7 @@ make_dir ($sh_path);
 make_dir ($output_path);
 my $sh_file_1 = sprintf ('%s/%s', $sh_path, "fastqc.$sample.1.sh");
 my $sh_file_2 = sprintf ('%s/%s', $sh_path, "fastqc.$sample.2.sh");
+$input_path = "$input_path/$sample";
 
 open my $fh_sh_1, '>', $sh_file_1 or die;
 print $fh_sh_1 "#!/bin/bash \n";

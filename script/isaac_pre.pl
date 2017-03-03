@@ -22,7 +22,7 @@ GetOptions (
     'config_file|c=s' => \$config,
 );
 
-
+$input_path="$input_path/$sample";
 my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){

@@ -22,7 +22,7 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
-
+$input_path="$input_path/$sample";
 
 my $hostname=hostname;
 #my $queue;

@@ -52,12 +52,11 @@ print $fh_sh_1 "#\$ -pe smp $threads_1\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh_1 "date\n";
 
-printf $fh_sh_1 ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y150 -m %d -j %d\n", $program, $sorted_reference, $input_path_1, $output_path, "$output_path/Temp/", $memory, $threads_1);
+printf $fh_sh_1 ("%s -r %s -b %s -o %s -t %s -f fastq-gz --use-bases-mask y150,y150 -m %d -j %d\n", $program, $sorted_reference, "$input_path_1/$sample", $output_path, "$output_path/Temp/", $memory, $threads_1);
 
 print $fh_sh_1 "date\n";
 close $fh_sh_1;
 
-cmd_system ($sh_path, $hostname, $sh_file_1);
 
 #----------------
 my $dir_script = dirname (abs_path $0);
@@ -71,12 +70,11 @@ print $fh_sh_2 "#\$ -pe smp $threads_2\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh_2 "date\n";
 
-printf $fh_sh_2 ("%s %s %s", $run_script, "$input_path/$sample\_R1.fastq.gz", "$input_path/$sample\_R2.fastq.gz");
+printf $fh_sh_2 ("%s %s %s\n", $run_script, "$input_path_2/$sample/$sample\_R1.fastq.gz", "$input_path_2/$sample/$sample\_R2.fastq.gz");
 
 print $fh_sh_2 "date\n";
 print $fh_sh_2;
 close $fh_sh_2;
 
-cmd_system($sh_path, $hostname, $sh_file_2);
-
-
+cmd_system ($sh_path, $hostname, $sh_file_2);
+cmd_system ($sh_path, $hostname, $sh_file_1);

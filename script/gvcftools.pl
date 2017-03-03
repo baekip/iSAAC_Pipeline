@@ -41,6 +41,7 @@ read_config ($config_file, \%info);
 
 my $reference = $info{reference};
 my $ivc_config = $info{ivc_config};
+$input_path = "$input_path/$sample";
 #checkFile ("$input_path/results/sorted.genome.vcf.gz");
 #checkFile ("$input_path/results/sorted.genome.vcf.gz.tbi");
 

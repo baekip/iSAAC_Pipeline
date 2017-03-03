@@ -17,13 +17,14 @@ sub CheckQsub{
     my $stop = 1;
     
     while($stop){
-    my $command =  "qstat";
+    my $command = "qstat";
     my $status=qx[$command];
     my @jobsStatus=split(/\n/,$status);
     
-    my $job_str = join '|', map quotemeta @job_list;
+    my $job_str = join ('|', @job_list);
+#    my $job_str = join ('|', map quotemeta @job_list);
+    print "job_str: $job_str\n";
     my @targetJobStatus = grep ( /$job_str/, @jobsStatus); #Here we get only the status of the of interest 
-
     if(scalar(@targetJobStatus )== 0) #if no job is running
     {$stop=0;
         }
@@ -55,7 +56,7 @@ sub program_run {
     print "-------------------------------------------------------\n";
     
     my ($script, $program, $input_path, $sample, $sh_path, $output_path, $threads, $config) = @_;
-    $input_path = sprintf ("%s/%s", $input_path, $sample);
+#    $input_path = sprintf ("%s/%s", $input_path, $sample);
     $sh_path = sprintf ("%s/%s/", $sh_path, $sample);
     $output_path = sprintf ("%s/%s/", $output_path, $sample);
     checkFile($script);
@@ -65,6 +66,4 @@ sub program_run {
     print $cmd."\n";
     return $cmd;
 }
-
-
 1;

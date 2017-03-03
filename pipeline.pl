@@ -130,7 +130,6 @@ foreach my $row (@pipe_list){
             push @input_path_list, sprintf ("%s/%s", $result_path, $pipe_hash{$input});
         }
         $input_path = join (",", @input_path_list);
-        print $input_path."\n";
     }else{
         $input_path = sprintf ("%s/%s", $result_path, $pipe_hash{$input_order});
     }
@@ -174,18 +173,23 @@ foreach my $row (@pipe_list){
         if ($type eq 'private'){
             my $program_bin = 'perl_script';
             my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
-            my $stdout = qx($cmd);
-            my @qlist = split /\s+/, $stdout;
-            my $job_id = $qlist[2];
-            push @job_list, $job_id;
+            my @stdout = qx($cmd);
+            my $qlist = join (" ", @stdout);
+            my @qjobsplit = split /\s/, $qlist;
+            my @qlist = grep (/^\d+$/, @qjobsplit);
+            push @job_list, @qlist;
             push @run_list, @exist_sample, $sample;
         }elsif ($type eq 'public'){
             my $program_bin = $info{$program};
             my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
-            my $stdout = qx($cmd);
-            my @qlist = split /\s+/, $stdout;
-            my $job_id = $qlist[2];
-            push @job_list, $job_id;
+            my @stdout = qx($cmd);
+            my $qlist = join ("", @stdout);
+            my @qjobsplit = split /\s/, $qlist;
+            my @qlist = grep (/^\d+$/, @qjobsplit);
+            foreach (@qlist){
+                print $_."\n";
+            }
+            push @job_list, @qlist;
             push @run_list, @exist_sample, $sample;
         }else {
             die "ERROR!! Check your pipeline configre <Order Number: $order> type option";
