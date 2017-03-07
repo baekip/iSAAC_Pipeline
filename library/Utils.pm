@@ -25,7 +25,14 @@ sub read_config{
 
 sub cmd_system {
     my ($sh_path, $hostname, $sh_file) = @_;
-    system (sprintf ("qsub -V -e %s -o %s -l hostname=%s -S /bin/bash %s", $sh_path, $sh_path, $hostname, $sh_file));
+    if ($hostname eq 'eagle'){
+        system (sprintf ("qsub -V -e %s -o %s -q isaac.q -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+    }elsif ($hostname eq 'cat'){
+        system (sprintf ("qsub -V -e %s -o %s -l hostname=%s -S /bin/bash %s", $sh_path, $sh_path, $hostname, $sh_file));
+    }else{
+        system (sprintf ("qsub -V -e %s -o %s -q all.q -S /bin/bash %s", $sh_path, $sh_path, $sh_file));
+    }
+#    system (sprintf ("qsub -V -e %s -o %s -l hostname=%s -S /bin/bash %s", $sh_path, $sh_path, $hostname, $sh_file));
 }
 
 sub trim {

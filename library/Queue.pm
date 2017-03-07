@@ -23,7 +23,7 @@ sub CheckQsub{
     
     my $job_str = join ('|', @job_list);
 #    my $job_str = join ('|', map quotemeta @job_list);
-    print "job_str: $job_str\n";
+#    print "job_str: $job_str\n";
     my @targetJobStatus = grep ( /$job_str/, @jobsStatus); #Here we get only the status of the of interest 
     if(scalar(@targetJobStatus )== 0) #if no job is running
     {$stop=0;

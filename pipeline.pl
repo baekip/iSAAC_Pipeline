@@ -142,7 +142,7 @@ foreach my $row (@pipe_list){
     my @flag_list;
     my $datestring=localtime();
     
-    print "#process: $order-$program\n"; 
+    print "#PROCESS: $order-$program\n"; 
     
     if (-e $flag_in){
         open my $fh_in, '<:encoding(UTF-8)', $flag_in or die;
@@ -186,9 +186,6 @@ foreach my $row (@pipe_list){
             my $qlist = join ("", @stdout);
             my @qjobsplit = split /\s/, $qlist;
             my @qlist = grep (/^\d+$/, @qjobsplit);
-            foreach (@qlist){
-                print $_."\n";
-            }
             push @job_list, @qlist;
             push @run_list, @exist_sample, $sample;
         }else {
