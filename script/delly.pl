@@ -23,7 +23,7 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
-$input_path="$input_path/$sample";
+
 my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
@@ -35,25 +35,53 @@ my $hostname=hostname;
 make_dir ($sh_path);
 make_dir ($output_path);
 
-
 my %info;
+my $sh_file = sprintf ('%s/%s', $sh_path, "delly.$sample.$option.sh");
 read_config ($config_file, \%info);
 
+#####Requirement
 my $reference = $info{reference};
-my $ivc_config = $info{ivc_config};
+my $excludeTemplates = $info{excludeTemplates};
+my $delivery_tbi_id = $info{delivery_tbi_id};
+my %id_hash;
+match_id ($delivery_tbi_id, \%id_hash);
 
-my $sh_file = sprintf ('%s/%s', $sh_path, "starling.$sample.sh");
+my $delivery_id = $id_hash{$sample};
 
+
+my $bam_path = "$output_path/delivery_bam/";
+make_dir ($bam_path);
+my $input_bam = "$bam_path/delivery_bam/$delivery_id.bam";
+my $input_bai = "$bam_path/delivery_bam/$delivery_id.bam.bai";
+
+my $orig_bam = "$input_path/$sample/Projects/default/default/sorted.bam";
+my $orig_bai = "$input_path/$sample/Projects/default/default/sorted.bam.bai";
+
+#######
 open my $fh_sh, '>', $sh_file or die;
 print $fh_sh "#!/bin/bash\n";
-print $fh_sh "#\$ -N starling.$sample\n";
+print $fh_sh "#\$ -N delly.$sample.$option\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
-printf $fh_sh ("%s --bam=%s --ref=%s --config=%s --output-dir=%s\n", $program, "$input_path/$sample.bam", $reference, $ivc_config, $output_path);
-printf $fh_sh ("make -j %s -C %s\n", $threads, $output_path);
-print $fh_sh "date\n";
+
+printf $fh_sh ("ln -s %s %s \n", $orig_bam, $orig_bai);
+printf $fh_sh ("ln -s %s %s \n", $input_bam, $input_bai);
+printf $fh_sh ("%s call -t INV -g %s -x %s -o %s 
+
+
+print $fh_sh; "date\n";
 close $fh_sh;
 
 cmd_system ($sh_path, $hostname, $sh_file);
+
+sub match_id {
+    my ($id_list, $hash_ref) = @_;
+    my @id_array = split /\,/, $id_list;
+    foreach my $id (@id_arrary){
+        my ($delivery_id, $tbi_id, $type) = split /\:/, $id;
+        $hash_ref->{$tbi_id}=$delivery_id;
+    }
+}
+

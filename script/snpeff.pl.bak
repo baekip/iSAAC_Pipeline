@@ -24,6 +24,7 @@ GetOptions (
     'config|c=s' => \$config_file
 );
 
+$input_path="$input_path/$sample";
 my $hostname=hostname;
 #my $queue;
 #if ( $host eq 'eagle'){
@@ -38,7 +39,6 @@ my $hostname=hostname;
 ##################################################################################
 make_dir ($sh_path);
 make_dir ($output_path);
-$input_path="$input_path/$sample/";
 my $sh_file = sprintf ('%s/%s', $sh_path, "snpeff.$sample.sh");
 
 my %info;
@@ -72,7 +72,7 @@ printf $fh_sh ("\t-c %s \\\n", $snpeff_config);
 printf $fh_sh ("\t-v %s \\\n", $snpeff_db);
 printf $fh_sh ("\t-s %s/%s.snpeff.html \\\n", $output_path, $sample);
 printf $fh_sh ("\t-o vcf \\\n"); 
-printf $fh_sh ("\t %s/%s.sorted.genome.PASS.vcf \| \\\n\n", $input_path, $sample);
+printf $fh_sh ("\t %s/%s.sorted.genome.PASS.vcf \\\n\n", $input_path, $sample);
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
@@ -94,9 +94,6 @@ printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir)
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
 printf $fh_sh ("\tannotate -clinvar -v - \| \\\n\n");
 
-printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
-printf $fh_sh ("\t-jar %s \\\n", $snpsift);
-printf $fh_sh ("\tdbNSFP -v -  \| \\\n\n");
 
 printf $fh_sh ("%s -Xmx%dg -Djava.io.tmpdir=%s \\\n", $java, $threads, $tmp_dir);
 printf $fh_sh ("\t-jar %s \\\n", $snpsift);
@@ -151,9 +148,9 @@ printf $fh_sh ("\t\"EXAC_AC\" \\\n");
 printf $fh_sh ("\t\"EXAC_AN\" \\\n");
 
 printf $fh_sh ("\t> %s \n", "$output_path/$sample.snpeff.tsv.tmp");
-printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/merge_isofrom_snv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.isoform.tsv");
-printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.isoform.tsv", "$output_path/$sample.snpeff.isoform.xlsx");
-printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.xlsx");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/merge_isofrom_snv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.isoform.tsv");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.isoform.tsv", "$output_path/$sample.snpeff.isoform.xlsx");
+printf $fh_sh ("python %s -i %s -o %s", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.xlsx");
 
 
 print $fh_sh "date\n";

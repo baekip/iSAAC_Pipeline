@@ -46,13 +46,13 @@ my $sh_file = sprintf ('%s/%s', $sh_path, "starling.$sample.sh");
 
 open my $fh_sh, '>', $sh_file or die;
 print $fh_sh "#!/bin/bash\n";
-print $fh_sh "#\$ -N starling.$sample\n";
+print $fh_sh "#\$ -N starling_pre.$sample\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 printf $fh_sh ("%s --bam=%s --ref=%s --config=%s --output-dir=%s\n", $program, "$input_path/$sample.bam", $reference, $ivc_config, $output_path);
-printf $fh_sh ("make -j %s -C %s\n", $threads, $output_path);
+printf $fh_sh ("make -C %s\n", $output_path);
 print $fh_sh "date\n";
 close $fh_sh;
 

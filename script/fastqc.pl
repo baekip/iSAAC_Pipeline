@@ -53,8 +53,8 @@ print $fh_sh_2 "#\$ -pe smp $threads \n";
 #print $fh_sh_2 "#\$ -q $queue \n";
 print $fh_sh_2 "date\n";
 
-my @fastq_R1_list = glob ("$input_path/*_R1.{fastq,fq}.gz");
-my @fastq_R2_list = glob ("$input_path/*_R2.{fastq,fq}.gz");
+my @fastq_R1_list = glob ("$input_path/*_R1*.{fastq,fq}.gz");
+my @fastq_R2_list = glob ("$input_path/*_R2*.{fastq,fq}.gz");
 
 my $fastq_1 = sprintf ('%s/%s', $output_path, "$sample\_R1.fastq.gz");
 my $fastq_2 = sprintf ('%s/%s', $output_path, "$sample\_R2.fastq.gz");
@@ -66,7 +66,15 @@ if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
     die "ERROR: Not exist!! check your rawdata file <$input_path>";
 }elsif (scalar (@fastq_R1_list) != scalar (@fastq_R2_list) ){
     die "ERROR: Not inconsistent!! check your rawdata file R1, R2 <$input_path>";
-}else {
+}elsif ( scalar (@fastq_R1_list) == 1 ){
+    printf $fh_sh_1 ("ln -s %s %s \n", $fastq_R1_list[0], $fastq_1);
+    printf $fh_sh_1 ("%s -t %d -o %s %s\n", $program, $threads, $output_path, $fastq_1);
+    printf $fh_sh_1 ("md5sum %s > %s\n", $fastq_1, $md5_1);
+
+    printf $fh_sh_2 ("ln -s %s %s \n", $fastq_R2_list[0], $fastq_2);
+    printf $fh_sh_2 ("%s -t %d -o %s %s\n", $program, $threads, $output_path, $fastq_2);
+    printf $fh_sh_2 ("md5sum %s > %s\n", $fastq_2, $md5_2);
+}else{
     my $fastq_list_1 = join ' ', @fastq_R1_list;
     printf $fh_sh_1 ("cat %s > %s\n", $fastq_list_1, $fastq_1);
     printf $fh_sh_1 ("%s -t %d -o %s %s\n", $program, $threads, $output_path, $fastq_1);

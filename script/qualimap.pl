@@ -33,6 +33,7 @@ my $hostname=hostname;
 
 make_dir ($sh_path);
 make_dir ($output_path);
+$input_path="$input_path/$sample";
 my $sh_file = sprintf ('%s/%s', $sh_path, "qualimap.$sample.sh");
 
 open my $fh_sh, '>', $sh_file or die;
