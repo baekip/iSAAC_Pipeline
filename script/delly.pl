@@ -35,53 +35,50 @@ my $hostname=hostname;
 make_dir ($sh_path);
 make_dir ($output_path);
 
-my %info;
 my $sh_file = sprintf ('%s/%s', $sh_path, "delly.$sample.$option.sh");
+my %info;
 read_config ($config_file, \%info);
 
+
+my $script_path = dirname (abs_path $0);
 #####Requirement
 my $reference = $info{reference};
 my $excludeTemplates = $info{excludeTemplates};
 my $delivery_tbi_id = $info{delivery_tbi_id};
-my %id_hash;
-match_id ($delivery_tbi_id, \%id_hash);
+my $bcftools = $info{bcftools};
+my $INV_bcf = "$output_path/$sample\.delly_INV.bcf";
+my $TRA_bcf = "$output_path/$sample\.delly_TRA.bcf";
+my $INV_vcf = "$output_path/$sample\.delly_INV.vcf";
+my $TRA_vcf = "$output_path/$sample\.delly_TRA.vcf";
+my $INV_table = "$output_path/$sample\.delly_INV_PASS_Table.txt";
+my $TRA_table = "$output_path/$sample\.delly_TRA_PASS_Table.txt";
+my $table_make_pl = "$script_path/delly_make_table.pl";
+checkFile($table_make_pl);
 
-my $delivery_id = $id_hash{$sample};
-
-
-my $bam_path = "$output_path/delivery_bam/";
-make_dir ($bam_path);
-my $input_bam = "$bam_path/delivery_bam/$delivery_id.bam";
-my $input_bai = "$bam_path/delivery_bam/$delivery_id.bam.bai";
-
-my $orig_bam = "$input_path/$sample/Projects/default/default/sorted.bam";
-my $orig_bai = "$input_path/$sample/Projects/default/default/sorted.bam.bai";
 
 #######
 open my $fh_sh, '>', $sh_file or die;
 print $fh_sh "#!/bin/bash\n";
-print $fh_sh "#\$ -N delly.$sample.$option\n";
+print $fh_sh "#\$ -N delly.$sample\n";
 print $fh_sh "#\$ -wd $sh_path \n";
 print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
-printf $fh_sh ("ln -s %s %s \n", $orig_bam, $orig_bai);
-printf $fh_sh ("ln -s %s %s \n", $input_bam, $input_bai);
-printf $fh_sh ("%s call -t INV -g %s -x %s -o %s 
+printf $fh_sh ("%s call -t INV -g %s -x %s -o %s %s \n", $reference, $excludeTemplates, $INV_bcf, $input_bam);
+printf $fh_sh ("%s call -t TRA -g %s -x %s -o %s %s \n", $reference, $excludeTemplates, $TRA_bcf, $input_bam);
 
+printf $fh_sh ("%s view %s > %s \n", $bcftools, $INV_bcf, $INV_vcf);
+printf $fh_sh ("%s view %s > %s \n", $bcftools, $TRA_bcf, $TRA_vcf);
 
-print $fh_sh; "date\n";
+printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\)\{print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $INV_vcf, $INV_filter); 
+printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\)\{print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $TRA_vcf, $TRA_filter);
+
+printf $fh_sh ("perl %s -c INV -i %s -o %s \n", $table_make_pl, $INV_filter, $INV_table);
+printf $fh_sh ("perl %s -c TRA -i %s -o %s \n", $table_make_pl, $TRA_filter, $TRA_table);
+
+print $fh_sh "date\n";
 close $fh_sh;
 
 cmd_system ($sh_path, $hostname, $sh_file);
-
-sub match_id {
-    my ($id_list, $hash_ref) = @_;
-    my @id_array = split /\,/, $id_list;
-    foreach my $id (@id_arrary){
-        my ($delivery_id, $tbi_id, $type) = split /\:/, $id;
-        $hash_ref->{$tbi_id}=$delivery_id;
-    }
-}
 
