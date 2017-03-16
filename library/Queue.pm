@@ -35,6 +35,7 @@ sub CheckQsub{
 sub pipe_arrange { 
     my ($pipe, $hash_ref) = @_;
     open my $fh, '<:encoding(UTF-8)', $pipe or die;
+    $hash_ref->{'00'}="rawdata";
     while (my $row = <$fh>) {
         chomp $row; 
         if ($row =~ /^#|^\s+/){next;}

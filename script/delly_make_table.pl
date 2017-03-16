@@ -12,9 +12,9 @@ use Utils qw(make_dir checkFile read_config cmd_system);
 my ($input, $output, $option); 
 
 GetOptions (
-    'input_vcf=s' => \$input,
-    'output=s' => \$output,
-    'option=s' => \$option,
+    'input_vcf|i=s' => \$input,
+    'output|o=s' => \$output,
+    'option|c=s' => \$option,
 );
 
 checkFile ($input);
@@ -34,8 +34,8 @@ if ($option eq 'INV'){
         my @info_list = split /;/, $info;
         my $breakpoint1_chr = $row_list[0];
         my $breakpoint1_pos = $row_list[1];
-        my ($chr_info,$breakpoint2_chr) = split /=/, $info_list[5];
-        my ($pos_info,$breakpoint2_pos) = split /=/, $info_list[6];
+        my ($chr_info,$breakpoint2_chr) = split /=/, $info_list[3];
+        my ($pos_info,$breakpoint2_pos) = split /=/, $info_list[4];
         my ($ct_info,$trs) = split /=/, $info_list[7];
 
         print $INV_fh_output "$breakpoint1_chr\t$breakpoint1_pos\t$breakpoint2_chr\t$breakpoint2_pos\t$trs\n";
@@ -57,8 +57,8 @@ if ($option eq 'INV'){
         my @info_list = split /;/, $info;
         my $breakpoint1_chr = $row_list[0];
         my $breakpoint1_pos = $row_list[1];
-        my ($chr_info,$breakpoint2_chr) = split /=/, $info_list[5];
-        my ($pos_info,$breakpoint2_pos) = split /=/, $info_list[6];
+        my ($chr_info,$breakpoint2_chr) = split /=/, $info_list[3];
+        my ($pos_info,$breakpoint2_pos) = split /=/, $info_list[4];
         my ($ct_info,$trs) = split /=/, $info_list[7];
 
         print $TRA_fh_output "$breakpoint1_chr\t$breakpoint1_pos\t$breakpoint2_chr\t$breakpoint2_pos\t$trs\n";

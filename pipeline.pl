@@ -110,7 +110,7 @@ print "-------------------------------------------------------\n";
 
 foreach my $row (@pipe_list){
     my $input_path;
-    my ($order, $input_order, $program, $option, $type, $threads) = split /\s+/, $row;
+    my ($order, $input_order, $program, $option, $type, $cluster, $threads) = split /\s+/, $row;
     if ($option =~ /,/){
         my @option_list = split /\,/, $option;
         $option = $option_list[0];
@@ -127,7 +127,9 @@ foreach my $row (@pipe_list){
         my @input_list = split /\,/, $input_order;
         my @input_path_list;
         foreach my $input (@input_list){
-            push @input_path_list, sprintf ("%s/%s", $result_path, $pipe_hash{$input});
+            if ($input eq '00') { 
+                $input_path = $rawdata_path;
+            }push @input_path_list, sprintf ("%s/%s", $result_path, $pipe_hash{$input});
         }
         $input_path = join (",", @input_path_list);
     }else{
@@ -168,8 +170,32 @@ foreach my $row (@pipe_list){
     make_dir($flag_path);
     my $flag_file = sprintf ("%s/%s_flag.txt", $flag_path, $pipe_hash{$order});
     open my $fh_flag, '>', $flag_file or die;
-    
-    foreach my $sample (@run_sample){
+    if ($cluster eq 'sample'){ 
+        foreach my $sample (@run_sample){
+            if ($type eq 'private'){
+                my $program_bin = 'perl_script';
+                my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+                my @stdout = qx($cmd);
+                my $qlist = join (" ", @stdout);
+                my @qjobsplit = split /\s/, $qlist;
+                my @qlist = grep (/^\d+$/, @qjobsplit);
+                push @job_list, @qlist;
+                push @run_list, @exist_sample, $sample;
+            }elsif ($type eq 'public'){
+                my $program_bin = $info{$program};
+                my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
+                my @stdout = qx($cmd);
+                my $qlist = join ("", @stdout);
+                my @qjobsplit = split /\s/, $qlist;
+                my @qlist = grep (/^\d+$/, @qjobsplit);
+                push @job_list, @qlist;
+                push @run_list, @exist_sample, $sample;
+            }else {
+                die "ERROR!! Check your pipeline configre <Order Number: $order> type option";
+            }
+        }
+    }elsif ($cluster eq 'multisample') {
+        my $sample = 'multisample';
         if ($type eq 'private'){
             my $program_bin = 'perl_script';
             my $cmd = program_run ($script, $program_bin, $input_path, $sample, $sh_program_path, $output_path, $threads, $config);
@@ -191,6 +217,8 @@ foreach my $row (@pipe_list){
         }else {
             die "ERROR!! Check your pipeline configre <Order Number: $order> type option";
         }
+    }else {
+        die "ERROR! Check your pipeline config sample category <$order>";
     }
     CheckQsub(@job_list);
     print $fh_flag  join ("\n", sort(@run_list));

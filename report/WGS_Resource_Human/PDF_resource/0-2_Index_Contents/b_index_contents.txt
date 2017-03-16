@@ -14,7 +14,6 @@ Workflow
 Data Analysis Results
 	3.1 Basic Statistics
 		3.1.1 Mapping Summary for Produced Sequencing Data
-		3.1.2 Cumulative Coverage Distribution
 	3.2 Annotated Variants
 		3.2.1 Number Variants By Type
 		3.2.2 Ts/Tv and Hetero/Homo

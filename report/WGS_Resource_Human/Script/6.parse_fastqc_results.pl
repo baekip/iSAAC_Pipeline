@@ -1,20 +1,15 @@
 use warnings;
 use strict;
 
-if (@ARGV !=2){
+if (@ARGV !=1){
 	printUsage();
 }
 
 my $in_general_config = $ARGV[0];
-my $in_pipeline_config = $ARGV[1];
-
 my %info;
 
 read_general_config( $in_general_config, \%info );
-#read_pipeline_config();
-
 my @list_delivery_tbi_id = split /\,/, $info{delivery_tbi_id};
-
 my $project_path = $info{project_path};
 
 my %hash_sample;
@@ -24,8 +19,8 @@ print "Sample ID\tPair Num\tPer base qual\tGC contents\tDuplication\n";
 foreach ( @list_delivery_tbi_id ){
 	my ($delivery_id,$tbi_id,$type_id) = split /\:/, $_;
 
-	my $r1_images_path = "$project_path/result/01_fastqc_orig/$tbi_id/$tbi_id\_1_fastqc/Images/";
-	my $r2_images_path = "$project_path/result/01_fastqc_orig/$tbi_id/$tbi_id\_2_fastqc/Images/";
+	my $r1_images_path = "$project_path/result/02_fastqc_orig/$tbi_id/$tbi_id\_R1_fastqc/Images/";
+	my $r2_images_path = "$project_path/result/02_fastqc_orig/$tbi_id/$tbi_id\_R2_fastqc/Images/";
 
 	my $png_per_base_quality_r1 = "$r1_images_path/per_base_quality.png";
 	my $png_per_base_sequence_content_r1 = "$r1_images_path/per_base_sequence_content.png";

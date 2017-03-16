@@ -7,29 +7,27 @@ use File::Basename;
 use Cwd qw(abs_path);
 my $script_path = dirname (abs_path $0);
 
-if (@ARGV != 2) {
+if (@ARGV != 1) {
     printUsage();
 }
 
 my $in_sample_config = $ARGV[0];
-my $in_pipeline_config = $ARGV[1];
-
 my %hash;
 read_sample_config ($in_sample_config, \%hash);
 
 my @list_sample_id = split /\,/, $hash{delivery_tbi_id};
-# my @trans_arr;
 
 my $project_path = $hash{project_path};
 my $alignment_statistics_xls = "$project_path/report/alignment.statistics.xls";
 checkFile ( $alignment_statistics_xls );
 
 print "[[11],[],[],[100]]\n";
-print "Sample ID\tTS\tTV\tTs/Tv\tHetero\\nVariants\tHomo\\nVariants\tHetero\\n/Homo\n";
+print "Sample ID\tTS\tTV\tTs/Tv\n";
+#print "Sample ID\tTS\tTV\tTs/Tv\tHetero\\nVariants\tHomo\\nVariants\tHetero\\n/Homo\n";
 
 foreach (@list_sample_id) {
     my ($delivery_id,$tbi_id,$type_id) = split /\:/, $_;
-    my $html = "$project_path/result/14_snpeff_human_run/".$tbi_id."/".$tbi_id.".BOTH.snpeff.html";
+    my $html = "$project_path/result/11_snpeff_run/".$tbi_id."/".$tbi_id.".snpeff.html";
 
 #print $html."\n";
     open my $fh_html, '<:encoding(UTF-8)', $html or die;
@@ -73,7 +71,8 @@ foreach (@list_sample_id) {
         chomp $hh_ratio;
         $hh_ratio = num($hh_ratio);
         
-        print "$delivery_id\t$ts\t$tv\t$ratio\t$hetero\t$homo\t$hh_ratio\n";
+        print "$delivery_id\t$ts\t$tv\t$ratio\n";
+#        print "$delivery_id\t$ts\t$tv\t$ratio\t$hetero\t$homo\t$hh_ratio\n";
 }
 
 sub RoundXL {

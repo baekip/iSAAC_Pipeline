@@ -8,17 +8,13 @@ my $script_path = dirname (abs_path $0);
 my $script_snpeff_html_parser = "$script_path/10.snpeff_html_parser.pl";
 checkFile( $script_snpeff_html_parser );
 
-if (@ARGV !=2){
+if (@ARGV !=1){
 	printUsage();
 }
 
 my $in_general_config = $ARGV[0];
-my $in_pipeline_config = $ARGV[1];
-
 my %info;
-
 read_general_config( $in_general_config, \%info );
-#read_pipeline_config();
 
 my @list_delivery_tbi_id = split /\,/, $info{delivery_tbi_id};
 
@@ -34,7 +30,7 @@ foreach ( @list_delivery_tbi_id ){
 	my ($delivery_id,$tbi_id,$type_id) = split /\:/, $_;
 
 	#file
-	my $snpeff_html = "$project_path/result/14_snpeff_human_run/$tbi_id/$tbi_id.BOTH.snpeff.html";
+	my $snpeff_html = "$project_path/result/11_snpeff_run/$tbi_id/$tbi_id.snpeff.html";
 	checkFile ( $snpeff_html );
 
 	my $result_line = `perl $script_snpeff_html_parser $snpeff_html`;

@@ -1,20 +1,16 @@
 use warnings;
 use strict;
 
-if (@ARGV !=2){
+if (@ARGV !=1){
 	printUsage();
 }
 
 my $in_general_config = $ARGV[0];
-my $in_pipeline_config = $ARGV[1];
-
 my %info;
 
 read_general_config( $in_general_config, \%info );
-#read_pipeline_config();
 
 my @list_delivery_tbi_id = split /\,/, $info{delivery_tbi_id};
-
 my $project_path = $info{project_path};
 
 my %hash_sample;
@@ -24,7 +20,7 @@ foreach ( @list_delivery_tbi_id ){
 	my ($delivery_id,$tbi_id,$type_id) = split /\:/, $_;
 
 
-	my $qualimap_path = "$project_path/result/23_qualimap_run/$tbi_id/images_qualimapReport";
+	my $qualimap_path = "$project_path/result/21_qualimap_run/$tbi_id/images_qualimapReport";
 
 	my $png_genome_insert_size_histogram = "$qualimap_path/genome_insert_size_histogram.png";
 	my $png_genome_gc_content_per_window = "$qualimap_path/genome_gc_content_per_window.png";

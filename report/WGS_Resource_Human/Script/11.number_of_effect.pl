@@ -8,7 +8,7 @@ my $script_path = dirname (abs_path $0);
 my $script_snpeff_html_parser = "$script_path/11.snpeff_html_parser.pl";
 checkFile( $script_snpeff_html_parser );
 
-if (@ARGV !=2){
+if (@ARGV !=1){
 	printUsage();
 }
 
@@ -34,7 +34,7 @@ foreach ( @list_delivery_tbi_id ){
 	my ($delivery_id,$tbi_id,$type_id) = split /\:/, $_;
 
 	#file
-	my $snpeff_html = "$project_path/result/14_snpeff_human_run/$tbi_id/$tbi_id.BOTH.snpeff.html";
+	my $snpeff_html = "$project_path/result/11_snpeff_run/$tbi_id/$tbi_id.snpeff.html";
 	checkFile ( $snpeff_html );
 
 	my $result_line = `perl $script_snpeff_html_parser $snpeff_html`;
@@ -42,7 +42,6 @@ foreach ( @list_delivery_tbi_id ){
 
 	print "$delivery_id\t$result_line\n";
 
-#cat /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/result/01_fastqc_orig/TN1507D0293/TN1507D0293_1_fastqc/fastqc_data.txt | grep "Total Sequences" | sed 's/Total Sequences\s//g'
 }
 
 sub read_pipeline_config{
@@ -103,7 +102,7 @@ sub num{
 
 
 sub printUsage{
-	print "Usage: perl $0 <in.config> <in.pipeline.config>\n";
-	print "Example: perl $0 /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_config.human.txt /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_pipeline_config.human.txt\n";
+	print "Usage: perl $0 <in.config> \n"; 
+	print "Example: perl $0 /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_config.human.txt \n";
 	exit;
 }

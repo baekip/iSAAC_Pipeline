@@ -35,7 +35,7 @@ my $hostname=hostname;
 make_dir ($sh_path);
 make_dir ($output_path);
 
-my $sh_file = sprintf ('%s/%s', $sh_path, "delly.$sample.$option.sh");
+my $sh_file = sprintf ('%s/%s', $sh_path, "delly.$sample.sh");
 my %info;
 read_config ($config_file, \%info);
 
@@ -46,10 +46,13 @@ my $reference = $info{reference};
 my $excludeTemplates = $info{excludeTemplates};
 my $delivery_tbi_id = $info{delivery_tbi_id};
 my $bcftools = $info{bcftools};
+my $input_bam = "$input_path/$sample/$sample\.bam";
 my $INV_bcf = "$output_path/$sample\.delly_INV.bcf";
 my $TRA_bcf = "$output_path/$sample\.delly_TRA.bcf";
 my $INV_vcf = "$output_path/$sample\.delly_INV.vcf";
 my $TRA_vcf = "$output_path/$sample\.delly_TRA.vcf";
+my $INV_filter = "$output_path/$sample\.delly_INV_PASS.vcf";
+my $TRA_filter = "$output_path/$sample\.delly_TRA_PASS.vcf";
 my $INV_table = "$output_path/$sample\.delly_INV_PASS_Table.txt";
 my $TRA_table = "$output_path/$sample\.delly_TRA_PASS_Table.txt";
 my $table_make_pl = "$script_path/delly_make_table.pl";
@@ -65,14 +68,14 @@ print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
-printf $fh_sh ("%s call -t INV -g %s -x %s -o %s %s \n", $reference, $excludeTemplates, $INV_bcf, $input_bam);
-printf $fh_sh ("%s call -t TRA -g %s -x %s -o %s %s \n", $reference, $excludeTemplates, $TRA_bcf, $input_bam);
+printf $fh_sh ("%s call -t INV -g %s -x %s -o %s %s \n", $program, $reference, $excludeTemplates, $INV_bcf, $input_bam);
+printf $fh_sh ("%s call -t TRA -g %s -x %s -o %s %s \n", $program, $reference, $excludeTemplates, $TRA_bcf, $input_bam);
 
 printf $fh_sh ("%s view %s > %s \n", $bcftools, $INV_bcf, $INV_vcf);
 printf $fh_sh ("%s view %s > %s \n", $bcftools, $TRA_bcf, $TRA_vcf);
 
-printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\)\{print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $INV_vcf, $INV_filter); 
-printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\)\{print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $TRA_vcf, $TRA_filter);
+printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\) print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $INV_vcf, $INV_filter); 
+printf $fh_sh ("cat %s | grep -v \'##\' | awk \'\{if\(\$7 == \"PASS\"\) print \$0\}\' | grep -v 'IMPRECISE' > %s \n", $TRA_vcf, $TRA_filter);
 
 printf $fh_sh ("perl %s -c INV -i %s -o %s \n", $table_make_pl, $INV_filter, $INV_table);
 printf $fh_sh ("perl %s -c TRA -i %s -o %s \n", $table_make_pl, $TRA_filter, $TRA_table);

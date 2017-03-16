@@ -15,12 +15,13 @@ use lib dirname (abs_path $0) . '/../library';
 use Report qw(report_header report_opt report_int report_info report_workflow );
 use Result qw(result_scatter_plot result_diagram_plot result_table INV_result TRA_result SV_header);
 use Utils qw(cp_file read_config trim checkFile make_dir); 
-use CNV qw(cnv_target);
 
 my $ver = "0.3.1";
-my $in_config;
+my ($in_config, $input_path, $output_path);
 GetOptions(
     'config=s' => \$in_config,
+    'output_path=s' => \$output_path,
+    'input_path=s' => \$input_path,
 );
 
 if (!defined $in_config or !-f $in_config){
@@ -39,21 +40,22 @@ read_config($in_config, \%info);
 #############################################################
 my $script_path = dirname(abs_path $0);
 my $project_id = $info{project_id};
-my $pair_id = $info{pair_id};
-my @pair_list = split /\,/, $pair_id;
 my $project_path = $info{project_path};
+my $delivery_tbi_id = $info{delivery_tbi_id};
+my @delivery_list = split /\,/, $pair_id;
+my ($cnv_result, $sv_result) = split /\,/, $input_path;
 
 #############################################################
 #make result folder 
 #############################################################
-my $report_path = "$project_path/result/00_Somatic_SV_run/report";
+my $report_path = "$output_path/report";
 make_dir($report_path);
 
 #############################################################
 #make report 
 #############################################################
 
-my $work_path = "$project_path/result/00_Somatic_SV_run";
+my $work_path = "$project_path/result/00_SV_run";
 my $cnv_path = "$work_path/01_cnv_run";
 my $sv_path = "$work_path/02_sv_run";
 
@@ -70,8 +72,10 @@ make_dir ("$report_path/images");
 checkFile("/$script_path/../images/workflow.png");
 cp_file ("/$script_path/../images/workflow.png", "$report_path/images/");
 
-foreach my $id (@pair_list) {
+foreach (@delivery_list) {
+    my ($id, $tbi_id, $type_id) = split /\:/, $_;
     print $id."\n";
+
     my $cnv_report_path = "$report_path/result/$id/cnvkit_run";
     make_dir($cnv_report_path);
 
@@ -79,7 +83,7 @@ foreach my $id (@pair_list) {
     my $cnr = "$cnv_path/$id/$id\.cns";
     my $scatter_png = "$cnv_path/$id/$id\-scatter.png";
     my $diagram_png = "$cnv_path/$id/$id\-diagram.png";
-    my $gainloss_table = "$cnv_path/$id/$id\.gene.gainloss";
+    my $gainloss_table = "$cnv_path/$id/$id\.gene.gainloss.txt";
 
     cp_file ($cns, "$cnv_report_path/$id\.cns");
     cp_file ($cnr, "$cnv_report_path/$id\.cnr");
@@ -90,18 +94,18 @@ foreach my $id (@pair_list) {
     result_diagram_plot($fh,"./result/$id/cnvkit_run/$id-diagram.png",$id);
     result_table($fh,"./result/$id/cnvkit_run/$id.gene.gainloss",$id);
 
-#    my $sv_report_path = "$report_path/result/$id/delly_run/";
-#    make_dir($sv_report_path);
-    #
-#    my $inv_table = "$sv_path/$id/$id\.delly_INV_PASS_Table.txt";
-#    my $tra_table = "$sv_path/$id/$id\.delly_TRA_PASS_Table.txt";
-#    my $cp_cmd = "cp $sv_path/$id/$id*vcf $sv_report_path";
-#    system ($cp_cmd);
-#    cp_file ($inv_table, $sv_report_path);
-#    cp_file ($tra_table, $sv_report_path);
-#    SV_header ($fh);
-#    INV_result ($fh, $id, $inv_table);
-#    TRA_result ($fh, $id, $tra_table);
+    my $sv_report_path = "$report_path/result/$id/delly_run/";
+    make_dir($sv_report_path);
+   #
+    my $inv_table = "$sv_path/$id/$id\.delly_INV_PASS_Table.txt";
+    my $tra_table = "$sv_path/$id/$id\.delly_TRA_PASS_Table.txt";
+    my $cp_cmd = "cp $sv_path/$id/$id*vcf $sv_report_path";
+    system ($cp_cmd);
+    cp_file ($inv_table, $sv_report_path);
+    cp_file ($tra_table, $sv_report_path);
+    SV_header ($fh);
+    INV_result ($fh, $id, $inv_table);
+    TRA_result ($fh, $id, $tra_table);
 }
 close $fh;
 

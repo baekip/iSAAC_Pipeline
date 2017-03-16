@@ -1,18 +1,14 @@
+#!/usr/bin/perl
 use warnings;
 use strict;
 
-if (@ARGV !=2){
+if (@ARGV !=1){
 	printUsage();
 }
 
 my $in_general_config = $ARGV[0];
-my $in_pipeline_config = $ARGV[1];
-
 my %info;
-
 read_general_config( $in_general_config, \%info );
-#read_pipeline_config();
-
 
 my $project_id = $info{project_id};
 
@@ -50,17 +46,15 @@ sub read_general_config{
 
 sub trim {
         my @result = @_;
-
         foreach (@result) {
                 s/^\s+//g;
                 s/\s+$//g;
         }
-
         return wantarray ? @result : $result[0];
 }
 
 sub printUsage{
-	print "Usage: perl $0 <in.config> <in.pipeline.config>\n";
-	print "Example: perl $0 /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_config.human.txt /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_pipeline_config.human.txt\n";
+	print "Usage: perl $0 <in.config> \n";
+	print "Example: perl $0 /BiO/BioProjects/FOM-Human-WES-2015-07-TBO150049/wes_config.human.txt \n"; 
 	exit;
 }
