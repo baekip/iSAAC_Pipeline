@@ -50,11 +50,11 @@ GetOptions (
     'pipeline=s' => \$pipeline,
     'help=s' => \$help
 );
+die `pod2text $0` if (!defined $config || !defined $pipeline || $help);
 
 $pipeline = (abs_path $pipeline);
 $config  = (abs_path $config);
 
-die `pod2text $0` if (!defined $config || !defined $pipeline || $help);
 
 my %info;
 read_config ($config, \%info);

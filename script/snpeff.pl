@@ -47,6 +47,7 @@ my $script_path = dirname(abs_path $0);
 my $reference = $info{reference};
 my $java = $info{java_1_7};
 my $tmp_dir = sprintf ("%s/tmp/", $output_path);
+make_dir ($tmp_dir);
 my $snpeff = $info{snpeff};
 my $snpsift = $info{snpsift};
 my $snpeff_config = $info{snpeff_config};
@@ -152,8 +153,8 @@ printf $fh_sh ("\t\"EXAC_AN\" \\\n");
 
 printf $fh_sh ("\t> %s \n", "$output_path/$sample.snpeff.tsv.tmp");
 printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/merge_isofrom_snv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.isoform.tsv");
-printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.isoform.tsv", "$output_path/$sample.snpeff.isoform.xlsx");
-printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.xlsx");
+#printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.isoform.tsv", "$output_path/$sample.snpeff.isoform.xlsx");
+#printf $fh_sh ("python %s -i %s -o %s \n", "$script_path/../util/write_xlsx_from_tsv.py", "$output_path/$sample.snpeff.tsv.tmp", "$output_path/$sample.snpeff.xlsx");
 
 
 print $fh_sh "date\n";

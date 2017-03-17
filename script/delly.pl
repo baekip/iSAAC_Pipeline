@@ -41,20 +41,30 @@ read_config ($config_file, \%info);
 
 
 my $script_path = dirname (abs_path $0);
+
+
+#####Requirement
 #####Requirement
 my $reference = $info{reference};
 my $excludeTemplates = $info{excludeTemplates};
 my $delivery_tbi_id = $info{delivery_tbi_id};
 my $bcftools = $info{bcftools};
+my %id_hash;
+match_id ($delivery_tbi_id, \%id_hash);
+
+my $delivery_id = $id_hash{$sample};
+if (!defined $sample) {
+    die "ERROR! Check your config file at <delivery_tbi_id>";
+}
 my $input_bam = "$input_path/$sample/$sample\.bam";
-my $INV_bcf = "$output_path/$sample\.delly_INV.bcf";
-my $TRA_bcf = "$output_path/$sample\.delly_TRA.bcf";
-my $INV_vcf = "$output_path/$sample\.delly_INV.vcf";
-my $TRA_vcf = "$output_path/$sample\.delly_TRA.vcf";
-my $INV_filter = "$output_path/$sample\.delly_INV_PASS.vcf";
-my $TRA_filter = "$output_path/$sample\.delly_TRA_PASS.vcf";
-my $INV_table = "$output_path/$sample\.delly_INV_PASS_Table.txt";
-my $TRA_table = "$output_path/$sample\.delly_TRA_PASS_Table.txt";
+my $INV_bcf = "$output_path/$delivery_id\.delly_INV.bcf";
+my $TRA_bcf = "$output_path/$delivery_id\.delly_TRA.bcf";
+my $INV_vcf = "$output_path/$delivery_id\.delly_INV.vcf";
+my $TRA_vcf = "$output_path/$delivery_id\.delly_TRA.vcf";
+my $INV_filter = "$output_path/$delivery_id\.delly_INV_PASS.vcf";
+my $TRA_filter = "$output_path/$delivery_id\.delly_TRA_PASS.vcf";
+my $INV_table = "$output_path/$delivery_id\.delly_INV_PASS_Table.txt";
+my $TRA_table = "$output_path/$delivery_id\.delly_TRA_PASS_Table.txt";
 my $table_make_pl = "$script_path/delly_make_table.pl";
 checkFile($table_make_pl);
 
@@ -85,3 +95,11 @@ close $fh_sh;
 
 cmd_system ($sh_path, $hostname, $sh_file);
 
+sub match_id {
+    my ($id_list, $hash_ref) = @_;
+    my @id_array = split /\,/, $id_list;
+    foreach my $id (@id_array){
+        my ($delivery_id, $tbi_id, $type) = split /\:/, $id;
+        $hash_ref->{$tbi_id}=$delivery_id;
+    }
+}
