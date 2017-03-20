@@ -28,6 +28,9 @@
     - qualimap.pl, 2017-02-24
     - qualimap_stat.pl, 2017-02-28
     - statistics.pl, 2017-02-28
+        .
+        .
+        .
 
 =head1 Example
 
@@ -54,7 +57,6 @@ die `pod2text $0` if (!defined $config || !defined $pipeline || $help);
 
 $pipeline = (abs_path $pipeline);
 $config  = (abs_path $config);
-
 
 my %info;
 read_config ($config, \%info);
