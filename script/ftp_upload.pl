@@ -43,13 +43,7 @@ read_config ($config_file, \%info);
 my $project_path = $info{project_path};
 my $dev_path = $info{dev_path};
 my $script_path = "$dev_path/script";
-my $ftp_script = "$script_path/ftp_script.pl";
-
-
-### make stat result file 
-
-system ("perl $make_of_stat_pl -c $config_file");
-system ("cat $qualimap_stat_path/*/* | sort -u > $align_stat"); 
+my $ftp_script_pl = "$script_path/ftp_script.pl";
 
 #######
 open my $fh_sh, '>', $sh_file or die;
@@ -60,7 +54,7 @@ print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
-print $fh_sh "perl $dev_report/wrapper_report_wgs.pl $config_file\n"; 
+print $fh_sh "perl $script_path/ftp_script.pl -i $input_path -o $output_path -c $config_file\n"; 
 
 print $fh_sh "date\n";
 close $fh_sh;

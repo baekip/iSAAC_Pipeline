@@ -155,6 +155,9 @@ foreach my $row (@pipe_list){
             push @flag_list, $row;
         }close $fh_in;
     }
+    if ($cluster eq 'multisample') { 
+        @sample_list = 'multisample';
+    }
     my %flag_hash = map {$_ => 1} @flag_list;
     my @run_sample = grep (!defined $flag_hash{$_}, @sample_list);
     my @exist_sample = grep ($flag_hash{$_}, @sample_list);
