@@ -76,6 +76,7 @@ my $sample_id = $info{sample_id};
 my $sh_path = sprintf ('%s/sh_log_file', $result_path);
 my $flag_orig_path = sprintf ('%s/flag_file/', $result_path);
 my @sample_list = split /\,/, $sample_id;
+my $log_file="$project_path/$project_id\.log.file";
 checkDir ($script_path);
 make_dir($result_path);
 make_dir($report_path);
@@ -105,10 +106,15 @@ sub read_pipeline_config{
 my %pipe_hash;
 pipe_arrange ($pipeline, \%pipe_hash);
 
+open my $fh_log, '>', $log_file or die;
 my $startdatestring = localtime();
 print "-------------------------------------------------------\n";
-print "START Pipeline: $startdatestring\n";
+print "START Isaac WGS Pipeline: $startdatestring\n";
 print "-------------------------------------------------------\n";
+
+print $fh_log "-------------------------------------------------------\n";
+print $fh_log "START Isaac WGS Pipeline: $startdatestring\n";
+print $fh_log "-------------------------------------------------------\n";
 
 foreach my $row (@pipe_list){
     my $input_path;
@@ -147,6 +153,7 @@ foreach my $row (@pipe_list){
     my $datestring=localtime();
     
     print "#PROCESS: $order-$program\n"; 
+    print $fh_log "\#$order-$program PROCESS START: $datestring\n";
     
     if (-e $flag_in){
         open my $fh_in, '<:encoding(UTF-8)', $flag_in or die;
@@ -226,7 +233,17 @@ foreach my $row (@pipe_list){
         die "ERROR! Check your pipeline config sample category <$order>";
     }
     CheckQsub(@job_list);
-    print $fh_flag  join ("\n", sort(@run_list));
+    print $fh_flag join ("\n", sort(@run_list));
+    my $subenddatestring=localtime();
+    print $fh_log "#$order-$program PROCESS END: $subenddatestring\n";
     close $fh_flag;
 }
+my $enddatestring = localtime();
+print "-------------------------------------------------------\n";
+print "END Isaac WGS Pipeline: $enddatestring\n";
+print "-------------------------------------------------------\n";
 
+print $fh_log "-------------------------------------------------------\n";
+print $fh_log "START Isaac WGS Pipeline: $enddatestring\n";
+print $fh_log "-------------------------------------------------------\n";
+close $fh_log;
