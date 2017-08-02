@@ -1,0 +1,9 @@
+[[10]]
+¡Ü Delivery ID(TBI ID): ID provided by customer (Temporary ID assigned by
+Theragen Etex)
+¡Ü Sample ID: Temporary ID assigned by Theragen Etex
+¡Ü Total reads:The number of generated reads
+¡Ü Total bases (bp): The number of produced nucleotides 
+¡Ü Total bases (Gbp): The total bases expressed by giga unit
+¡Ü GC Percent:   The GC ratio of the total yield
+¡Ü Q30 MoreBasesRate: Proportion of nucleotides greater than Phred quality score 30 of the total bases

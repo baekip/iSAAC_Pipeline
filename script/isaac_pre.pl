@@ -41,8 +41,8 @@ print $fh_sh "#\$ -pe smp $threads\n";
 #print $fh_sh "#\$ -q $queue\n";
 print $fh_sh "date\n";
 
-my @fastq_R1_list = glob ("$input_path/*_R1*.{fastq,fq}.gz");
-my @fastq_R2_list = glob ("$input_path/*_R2*.{fastq,fq}.gz");
+my @fastq_R1_list = glob ("$input_path/*$sample*_R1*.{fastq,fq}.gz");
+my @fastq_R2_list = glob ("$input_path/*$sample*_R2*.{fastq,fq}.gz");
 
 
 if (scalar (@fastq_R1_list) == 0 || scalar (@fastq_R2_list) == 0){
