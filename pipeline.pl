@@ -81,7 +81,7 @@ checkDir ($script_path);
 make_dir($result_path);
 make_dir($report_path);
 make_dir($sh_path);
-#make_dir($flag_orig_path);
+make_dir($flag_orig_path);
 
 #############################################################
 #Requirement config source 
@@ -148,7 +148,7 @@ foreach my $row (@pipe_list){
     my $script = sprintf ("%s/%s.pl", $script_path, $program);
     my $output_path = sprintf ("%s/%s/", $result_path, $pipe_hash{$order});
     my $sh_program_path = sprintf ("%s/%s/", $sh_path, $pipe_hash{$order});
-    my $flag_in = sprintf ("%s/%s/%s_flag.txt", $flag_orig_path, $pipe_hash{$order}, $pipe_hash{$order});
+    my $flag_in = sprintf ("%s/%s_flag.txt", $flag_orig_path, $pipe_hash{$order});
     my @flag_list;
     my $datestring=localtime();
     
@@ -178,9 +178,9 @@ foreach my $row (@pipe_list){
     my @job_list;
     my @run_list; 
     
-    my $flag_path = sprintf ("%s/%s/", $flag_orig_path, $pipe_hash{$order});
-    make_dir($flag_path);
-    my $flag_file = sprintf ("%s/%s_flag.txt", $flag_path, $pipe_hash{$order});
+#    my $flag_path = sprintf ("%s/%s/", $flag_orig_path, $pipe_hash{$order});
+#    make_dir($flag_path);
+    my $flag_file = sprintf ("%s/%s_flag.txt", $flag_orig_path, $pipe_hash{$order});
     open my $fh_flag, '>', $flag_file or die;
     if ($cluster eq 'sample'){ 
         foreach my $sample (@run_sample){

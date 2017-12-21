@@ -106,7 +106,7 @@ foreach (@delivery_list) {
 }
 close $fh;
 
-my $render_cmd = "R -e \'library(\"rmarkdown\"); render(\"$report_rmd\")\'";
+my $render_cmd = "R -e \'library(\"rmarkdown\"); library(\"rmdformats\"); options(bitmapType=\"cairo\"); render(\"$report_rmd\")\'";
 system($render_cmd);
 
 if (-e $report_html){

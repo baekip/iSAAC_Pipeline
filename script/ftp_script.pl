@@ -25,23 +25,29 @@ my $report_path = $info{report_path};
 my $project_id = $info{project_id};
 my $in_0_1 = $report_path;
 
-my ($in_1, $in_2, $in_3, $in_4, $in_5, $in_6, $in_7, $in_8) = split /\,/, $input;
+if ( -d $output ) {
+    `rm -r $output`
+}
 
+my @input_list;
+my @input_list = split /\,/, $input;
 
-foreach my $id (@delivery_list){
+#copy
+
+foreach my $input_tmp (@input_list){
     my ($delivery_id, $tbi_id, $type_id) = split /\:/, $id;
 
-    ##01_variant_report
-    my $ftp_in_0_1 = "$in_0_1/Analysis_report_$project_id\.pdf";
-    my $ftp_out_0_1 = "$output/00_report/01_variant_report";
-    cp_file ($ftp_in_0_1, $ftp_out_0_1);
-
-    ##02_sv_report
-    my $ftp_in_0_2 = "$in_8/multisample/*";
-    my $ftp_out_0_2 = "$output/00_report/02_sv_report";
-    cp_file ($ftp_in_0_2, $ftp_out_0_2); 
-
     ##01_fastq_file
+    #TN1703D0089_R1_fastqc
+    #TN1703D0089_R1_fastqc.zip
+    #TN1703D0089_R1.fastq.gz
+    #TN1703D0089_R1.fastq.gz.rst.xls
+    #TN1703D0089_R1.md5.txt
+    #TN1703D0089_R2_fastqc
+    #TN1703D0089_R2_fastqc.zip
+    #TN1703D0089_R2.fastq.gz
+    #TN1703D0089_R2.md5.txt
+    
     my $ftp_in_1 = "$in_1/$tbi_id/";
     my $ftp_out_1 = "$output/01_fastq_file/$delivery_id/";
     SoftLink ($ftp_in_1, $ftp_out_1);
